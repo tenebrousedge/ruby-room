@@ -4,15 +4,19 @@ require 'pry'
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
+
 #LOGIN PATH
 
 get '/' do
+  User.create(name: 'nik', password: 'hi')
   #login
   erb :index
 end
 
 get '/user/find' do
-  user_id = User.find(params['name']).id
+  binding.pry
+
+  user_id = User.find_by(name: params['user-name']).id
   redirect "/user/#{user_id}"
 end
 
@@ -22,17 +26,18 @@ end
 get '/user/:id' do
   #user account
   @user = User.find(params['id'])
+  binding.pry
   erb :user
 end
 
 post '/user/new' do
   #creates a new user
-  User.create(user_name: params['user-name'], user_password: params['user-password'])
+  User.create(name: params['user-name'], password: params['user-password'])
 end
 
 patch '/user/name/:id' do
   #edits user 
-  User.update(new_name: params['new-name'], new_password: params['new-password'])
+  User.update(name: params['new-name'], password: params['new-password'])
 end
 
 delete '/user/:id/delete' do
