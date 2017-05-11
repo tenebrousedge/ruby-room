@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: chatroom_development
+test:
+  adapter: postgresql
+  database:  chatroom_test

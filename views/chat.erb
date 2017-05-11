@@ -1,3 +1,9 @@
 <% @messages.each do |message| %>
   <p><%= message.content %></p>
 <% end %>
+
+<form action="/chat/<%= @user_id %>/messages/new" method="post">
+  <label for="new-message"></label>
+  <input type="text" name="new-message">
+  <button type="submit">Send</button>
+</form>

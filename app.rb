@@ -1,3 +1,9 @@
+require 'bundler/setup'
+Bundler.require(:default)
+require 'pry'
+
+Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
+
 #LOGIN PATH
 
 get '/' do
@@ -5,16 +11,21 @@ get '/' do
   erb :index
 end
 
+get '/user/find' do
+  user_id = User.find(params['name']).id
+  redirect "/user/#{user_id}"
+end
+
 
 #USER PATH
 
-get '/user/:id'
+get '/user/:id' do
   #user account
   @user = User.find(params['id'])
   erb :user
 end
 
-post '/user/new'
+post '/user/new' do
   #creates a new user
   User.create(user_name: params['user-name'], user_password: params['user-password'])
 end
@@ -32,11 +43,21 @@ end
 
 #CHAT PATH
 
-get '/chat' do
+get '/chat/:id' do
   #chat page
   @messages = Message.all
+  @user_id = params['id']
   erb :chat
 end
+
+post '/chat/:id/messages/new' do
+  #creates a message and assigns it to the user id passed through url
+  user_id = params['id']
+  new_message_content = params['new-message']
+  Message.create(content: new_message_content, user_id: user_id)
+  redirect back
+end
+
 
 
 
