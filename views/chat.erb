@@ -1,5 +1,5 @@
 <% @messages.each do |message| %>
-  <p><%= message.content %></p>
+  <p><%= User.find(message.user_id).name %><%= message.created_at %><%= message.content %></p>
 <% end %>
 
 <form action="/chat/<%= @user_id %>/messages/new" method="post">
@@ -7,3 +7,5 @@
   <input type="text" name="new-message">
   <button type="submit">Send</button>
 </form>
+
+<a href="/">Logout</a>

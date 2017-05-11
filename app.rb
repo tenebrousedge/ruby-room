@@ -9,12 +9,15 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 get '/' do
   User.create(name: 'nik', password: 'hi')
+  User.create(name: 'ken', password: 'aloha')
+  User.create(name: 'sean', password: 'whatever')
+  User.create(name: 'tanner', password: 'haha')
   #login
   erb :index
 end
 
 get '/user/find' do
-  binding.pry
+
 
   user_id = User.find_by(name: params['user-name']).id
   redirect "/user/#{user_id}"
@@ -26,7 +29,7 @@ end
 get '/user/:id' do
   #user account
   @user = User.find(params['id'])
-  binding.pry
+
   erb :user
 end
 
@@ -36,7 +39,7 @@ post '/user/new' do
 end
 
 patch '/user/name/:id' do
-  #edits user 
+  #edits user
   User.update(name: params['new-name'], password: params['new-password'])
 end
 
@@ -52,6 +55,7 @@ get '/chat/:id' do
   #chat page
   @messages = Message.all
   @user_id = params['id']
+
   erb :chat
 end
 
@@ -62,7 +66,3 @@ post '/chat/:id/messages/new' do
   Message.create(content: new_message_content, user_id: user_id)
   redirect back
 end
-
-
-
-
