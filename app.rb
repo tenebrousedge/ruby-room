@@ -1,25 +1,39 @@
 require 'bundler/setup'
+require 'pry'
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
-
+require 'bcrypt'
+enable  :sessions, :logging
 #LOGIN PATH
 
 get '/' do
-  User.create(name: 'nik', password: 'hi')
-  User.create(name: 'ken', password: 'aloha')
-  User.create(name: 'sean', password: 'whatever')
-  User.create(name: 'tanner', password: 'haha')
   #login
   erb :index
 end
 
-get '/user/find' do
+get '/signup' do
+  erb :signup
+end
 
+post "/signup" do
+    user = User.new(:username => params['username'], :password => params['password'])
+    if user.save
+        redirect "/"
+    else
+        redirect "/failure"
+    end
+end
 
-  user_id = User.find_by(name: params['user-name']).id
-  redirect "/user/#{user_id}"
+post "/login" do
+    user = User.find_by(:username => params[:username])
+    if user && user.authenticate(params[:password])
+        session[:user_id] = user.id
+        redirect "/user/#{user.id}"
+    else
+        redirect "/failure"
+    end
 end
 
 
@@ -34,12 +48,12 @@ end
 
 post '/user/new' do
   #creates a new user
-  User.create(name: params['user-name'], password: params['user-password'])
+  User.create(username: params['user-name'], password: params['user-password'])
 end
 
 patch '/user/name/:id' do
   #edits user
-  User.update(name: params['new-name'], password: params['new-password'])
+  User.update(username: params['new-name'], password: params['new-password'])
 end
 
 delete '/user/:id/delete' do

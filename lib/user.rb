@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  validates :name, presence: true, length: { in: 3..15 }, :uniqueness => true
+  validates :username, presence: true, length: { in: 3..15 }, :uniqueness => true
+
+  has_secure_password
 
   has_many :messages, dependent: :destroy
 
@@ -8,6 +10,11 @@ class User < ActiveRecord::Base
 private
 
   def downcase_name
-    self.name = name.downcase
+    self.username = username.downcase
+  end
+
+  def generate_uuid
+    # uuid = SecureRandom.uuid
+    # self.update()
   end
 end
