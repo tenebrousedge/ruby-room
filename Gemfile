@@ -12,3 +12,11 @@ group(:test) do
   gem("capybara")
   gem("pry")
 end
+
+group :production do
+  gem("sinatra-contrib", :require => "sinatra/reloader")
+  gem("sinatra-activerecord")
+  gem("rake")
+  gem("pg")
+  gem("sinatra")
+end
