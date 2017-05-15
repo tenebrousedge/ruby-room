@@ -11,7 +11,6 @@ gem("bcrypt")
 group(:test) do
   gem("rspec")
   gem("capybara")
-  gem("pry")
 end
 
 group :production do
