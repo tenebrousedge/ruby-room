@@ -1,10 +1,11 @@
 source("https://rubygems.org")
 
-# gem("sinatra-contrib", :require => "sinatra/reloader")
-# gem("sinatra-activerecord")
-# gem("rake")
-# gem("pg")
-# gem("sinatra")
+gem("sinatra-contrib", :require => "sinatra/reloader")
+gem("sinatra-activerecord")
+gem("rake")
+gem("pg")
+gem("sinatra")
+gem("bcrypt")
 
 
 
@@ -15,10 +16,10 @@ group(:test) do
 end
 
 group :production do
-  gem("sinatra-contrib", :require => "sinatra/reloader")
-  gem("sinatra-activerecord")
-  gem("rake")
-  gem("pg")
-  gem("sinatra")
-  gem("bcrypt")
+  # gem("sinatra-contrib", :require => "sinatra/reloader")
+  # gem("sinatra-activerecord")
+  # gem("rake")
+  # gem("pg")
+  # gem("sinatra")
+  # gem("bcrypt")
 end
