@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'json'
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
@@ -84,6 +85,12 @@ get '/chat/' do
   else
     erb(:failure)
   end
+end
+
+get '/data' do
+  messages = Message.all
+  content_type :json
+  messages.to_json
 end
 
 post '/chat/messages/new' do

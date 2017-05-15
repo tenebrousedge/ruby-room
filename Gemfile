@@ -7,7 +7,7 @@ gem("rake")
 gem("pg")
 gem("sinatra")
 gem("bcrypt")
-
+gem("json")
 
 
 group(:test) do
