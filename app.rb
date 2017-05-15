@@ -30,7 +30,7 @@ post "/login" do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        redirect "/user/#{user.id}"
+        redirect "/user/"
     else
         redirect "/failure"
     end
@@ -39,11 +39,14 @@ end
 
 #USER PATH
 
-get '/user/:id' do
+get '/user/' do
   #user account
-  @user = User.find(params['id'])
-
-  erb :user
+  if session[:user_id] != nil
+    @user = User.find(session[:user_id])
+    erb :user
+  else
+    erb(:failure)
+  end
 end
 
 post '/user/new' do
@@ -61,20 +64,32 @@ delete '/user/:id/delete' do
   User.destroy(User.find(params['id']))
 end
 
+get "/signout" do
+  session[:user_id] = nil
+  erb :index
+end
+
+get "/failure" do
+  erb :failure
+end
+
 
 #CHAT PATH
 
-get '/chat/:id' do
+get '/chat/' do
   #chat page
-  @messages = Message.all
-  @user_id = params['id']
-
-  erb :chat
+  if session[:user_id] != nil
+    @messages = Message.all
+    @user_id = session[:user_id]
+    erb :chat
+  else
+    erb(:failure)
+  end
 end
 
-post '/chat/:id/messages/new' do
+post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
-  user_id = params['id']
+  user_id = session[:user_id]
   new_message_content = params['new-message']
   Message.create(content: new_message_content, user_id: user_id)
   redirect back
