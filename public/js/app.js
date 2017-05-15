@@ -15,5 +15,19 @@ $(document).ready(function() {
     });
     dataOrganize(jsonData.objects)
   }
+
+  $("#new-msg-form").submit(function(e){
+    e.preventDefault();
+    var newMessage = $("#new-message").val();
+    fetch('/chat/messages/new', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newMessage)
+    });
+    $("#new-message").val("");
+  });
+
   setInterval(async ,2000);
 });
