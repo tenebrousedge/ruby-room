@@ -88,9 +88,12 @@ get '/chat/' do
 end
 
 get '/data' do
-  messages = Message.all
+  all_messages = []
+  Message.all.each do |message|
+    all_messages.push(message.content)
+  end
   content_type :json
-  messages.to_json
+  all_messages.to_json
 end
 
 post '/chat/messages/new' do
