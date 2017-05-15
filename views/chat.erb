@@ -1,9 +1,14 @@
-<% @messages.each do |message| %>
-  <p><%= User.find(message.user_id).username %><%= " - "%><%= message.created_at %><%= " - "%><%= message.content %></p>
-<% end %>
+<div id="chatroom">
+  <ul>
+    <li id="name"></li>
+    <li id="timestamp"></li>
+    <li id="content"></li>
+    <hr>
+  </ul>
+</div>
 
-<form action="/chat/messages/new" method="post">
+<form id="new-msg-form" action="">
   <label for="new-message"></label>
-  <input type="text" name="new-message">
-  <button type="submit">Send</button>
+  <input id="new-message" type="text" name="new-message">
+  <button id="send" type="submit">Send</button>
 </form>

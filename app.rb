@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'json'
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
@@ -86,10 +87,16 @@ get '/chat/' do
   end
 end
 
+get '/data' do
+content_type :json
+Message.all.to_json
+end
+
 post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
+  values = JSON.parse(request.env["rack.input"].read)
   user_id = session[:user_id]
   new_message_content = params['new-message']
-  Message.create(content: new_message_content, user_id: user_id)
-  redirect back
+  Message.create(content: values, user_id: user_id)
+  # redirect back
 end
