@@ -9,6 +9,7 @@ gem("sinatra")
 gem("bcrypt")
 gem("json")
 gem("pry")
+gem 'uuid', '~> 2.3', '>= 2.3.8'
 
 
 group(:test) do

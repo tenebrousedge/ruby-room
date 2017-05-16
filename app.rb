@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'json'
+require 'pry'
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
@@ -30,6 +31,9 @@ post "/login" do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
+        uuid = UUID.new.to_s
+        user.update(uuid: uuid)
+        session[:uuid] = uuid
         redirect "/user/"
     else
         redirect "/failure"
@@ -41,8 +45,8 @@ end
 
 get '/user/' do
   #user account
-  if session[:user_id] != nil
-    @user = User.find(session[:user_id])
+  @user = User.find_by(:uuid => session[:uuid])
+  if @user != nil
     erb :user
   else
     erb(:failure)
@@ -65,6 +69,8 @@ delete '/user/:id/delete' do
 end
 
 get "/signout" do
+  user = User.find_by(:uuid => session[:uuid])
+  user.update(uuid: "")
   session[:user_id] = nil
   erb :index
 end
@@ -78,7 +84,8 @@ end
 
 get '/chat/' do
   #chat page
-  if session[:user_id] != nil
+  @user = User.find_by(:uuid => session[:uuid])
+  if @user != nil
     @messages = Message.all
     @user_id = session[:user_id]
     erb :chat
@@ -88,14 +95,13 @@ get '/chat/' do
 end
 
 get '/data' do
-content_type :json
-Message.all.to_json
+  content_type :json
+  HashMash.mash_the_hash.to_json
 end
 
 post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
-  values = JSON.parse(request.env["rack.input"].read)
-  user_id = session[:user_id]
-  Message.create(content: values, user_id: user_id)
-  # redirect back
+  json_string = JSON.parse(request.env["rack.input"].read)
+  values = json_string.split("~||~")
+  Message.create(content: values[0], user_id: values[1] )
 end
