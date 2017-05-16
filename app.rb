@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'json'
+require 'pry'
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
@@ -30,6 +31,9 @@ post "/login" do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
+        uuid = UUID.new.to_s
+        user.update(uuid: uuid)
+        session[:uuid] = uuid
         redirect "/user/"
     else
         redirect "/failure"
@@ -41,8 +45,8 @@ end
 
 get '/user/' do
   #user account
-  if session[:user_id] != nil
-    @user = User.find(session[:user_id])
+  @user = User.find_by(:uuid => session[:uuid])
+  if @user != nil
     erb :user
   else
     erb(:failure)
@@ -65,6 +69,8 @@ delete '/user/:id/delete' do
 end
 
 get "/signout" do
+  user = User.find_by(:uuid => session[:uuid])
+  user.update(uuid: "")
   session[:user_id] = nil
   erb :index
 end
@@ -78,7 +84,8 @@ end
 
 get '/chat/' do
   #chat page
-  if session[:user_id] != nil
+  @user = User.find_by(:uuid => session[:uuid])
+  if @user != nil
     @messages = Message.all
     @user_id = session[:user_id]
     erb :chat
