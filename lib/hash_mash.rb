@@ -11,4 +11,14 @@ class HashMash
     end
     mashed_hash_a
   end
+
+  def self.active_users
+    active_users = []
+    User.all.each do |user|
+      if user.activity == true
+        active_users.push(user)
+      end
+    end
+    active_users
+  end
 end
