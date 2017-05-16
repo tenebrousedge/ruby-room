@@ -5,7 +5,7 @@ var jsonData = {
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
   for (i=0; i < rawData.length; i++) {
-    $("#chatroom").append('<li>' + rawData[i]['username'] + " | " + rawData[i]['created_at']+ " | " + rawData[i]['content'] + '</li>');
+    $("#chatroom").append('<li>' + rawData[i]['username'] + " | " + rawData[i]['display_time']+ " | " + rawData[i]['content'] + '</li>');
   }
 
 };
@@ -32,7 +32,7 @@ $(document).ready(function() {
           $("#chatroom").text(`Something isn't quite right: ${error.status} ${error.statusText}`);
         }
       });
-      
+
     dataOrganize(jsonData.objects);
   };
 
