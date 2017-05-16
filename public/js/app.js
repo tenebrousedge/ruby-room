@@ -7,7 +7,12 @@ var dataOrganize = function(rawData) {
   for (i=0; i < rawData.length; i++) {
     $("#chatroom").append('<li>' + rawData[i]['username'] + " | " + rawData[i]['display_time']+ " | " + rawData[i]['content'] + '</li>');
   }
+};
 
+var displayUsers = function(userData) {
+  userData.forEach(function(user) {
+  $("#users").append(user['username']);
+  });
 };
 
 $(document).ready(function() {
@@ -48,7 +53,7 @@ $(document).ready(function() {
           return Promise.reject({
             status: response.status,
             statusText: response.statusText
-          })
+          });
         }
       })
       .then(data => {
@@ -63,6 +68,29 @@ $(document).ready(function() {
         dataOrganize(jsonData.objects)
         spinner.stop();
         spinner2.stop();
+      });
+
+    fetch("/active-users")
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject({
+            status: response.status,
+            statusText: response.statusText
+          });
+        }
+      })
+      .then(data => {
+        jsonData.objects = data;
+      })
+      .catch(error => {
+        if (error.status !== 200) {
+          $("#chatroom").text(`Something isn't quite right: ${error.status} ${error.statusText}`);
+        }
+      })
+      .then(function() {
+        displayUsers(jsonData.objects)
       });
   };
 
