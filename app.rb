@@ -96,7 +96,6 @@ post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
   values = JSON.parse(request.env["rack.input"].read)
   user_id = session[:user_id]
-  new_message_content = params['new-message']
   Message.create(content: values, user_id: user_id)
   # redirect back
 end

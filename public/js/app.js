@@ -1,20 +1,37 @@
 var jsonData = {
   objects: []
-}
+};
 
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
   for (i=0; i < rawData.length; i++) {
     $("#chatroom").append('<li>' + rawData[i].created_at + rawData[i].content + '</li>');
   }
-}
+};
 $(document).ready(function() {
   var async = function() {
-    $.getJSON("http://localhost:4567/data", function(data) {
-      jsonData.objects = data;
-    });
-    dataOrganize(jsonData.objects)
-  }
+    fetch("/data")
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject({
+            status: response.status,
+            statusText: response.statusText
+          })
+        }
+      })
+      .then(data => {
+        jsonData.objects = data;
+      })
+      .catch(error => {
+        if (error.status !== 200) {
+          $("#chatroom").text(`Something isn't quite right: ${error.status} ${error.statusText}`);
+        }
+      });
+      
+    dataOrganize(jsonData.objects);
+  };
 
   $("#new-msg-form").submit(function(e){
     e.preventDefault();
