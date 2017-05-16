@@ -10,8 +10,9 @@ var dataOrganize = function(rawData) {
 };
 
 var displayUsers = function(userData) {
+  $("#users").text("");
   userData.forEach(function(user) {
-  $("#users").append(user['username']);
+  $("#users").append(user['username'] + "<br>");
   });
 };
 
