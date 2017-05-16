@@ -1,4 +1,4 @@
-module HashMash
+class HashMash
   def self.mash_the_hash
     mashed_hash_a = []
     Message.all.each do |message|
