@@ -55,7 +55,7 @@ end
 
 post '/user/new' do
   #creates a new user
-  User.create(username: params['user-name'], password: params['user-password'])
+  User.create(username: params['user-name'], password: params['user-password'], activity: false)
 end
 
 patch '/user/name/:id' do
@@ -70,6 +70,7 @@ end
 
 get "/signout" do
   user = User.find_by(:uuid => session[:uuid])
+  user.update(activity: false)
   user.update(uuid: "")
   session[:user_id] = nil
   erb :index
@@ -86,12 +87,18 @@ get '/chat/' do
   #chat page
   @user = User.find_by(:uuid => session[:uuid])
   if @user != nil
+    @user.update(activity: true)
     @messages = Message.all
     @user_id = session[:user_id]
     erb :chat
   else
     erb(:failure)
   end
+end
+
+get '/active-users' do
+  content_type :json
+  HashMash.active_users.to_json
 end
 
 get '/data' do

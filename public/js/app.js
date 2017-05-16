@@ -64,9 +64,6 @@ $(document).ready(function() {
         spinner.stop();
         spinner2.stop();
       });
-
-    dataOrganize(jsonData.objects);
-
   };
 
   var target2 = document.getElementById("load-below");
