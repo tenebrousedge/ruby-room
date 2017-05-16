@@ -8,6 +8,7 @@ var dataOrganize = function(rawData) {
     $("#chatroom").append('<li>' + rawData[i].created_at + rawData[i].content + '</li>');
   }
 }
+
 $(document).ready(function() {
   var async = function() {
     $.getJSON("http://localhost:4567/data", function(data) {
@@ -18,7 +19,9 @@ $(document).ready(function() {
 
   $("#new-msg-form").submit(function(e){
     e.preventDefault();
+    // var newMessage = $("#new-message").val();
     var newMessage = $("#new-message").val();
+    console.log(newMessage);
     fetch('/chat/messages/new', {
       method: 'post',
       headers: {
