@@ -65,6 +65,7 @@ delete '/user/:id/delete' do
 end
 
 get "/signout" do
+  session[:user_id] = nil
   erb :index
 end
 
