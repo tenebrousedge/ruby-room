@@ -1,13 +1,7 @@
-<div id="chatroom">
-  <ul>
-    <li id="name"></li>
-    <li id="timestamp"></li>
-    <li id="content"></li>
-    <hr>
-  </ul>
-</div>
+<div id="chatroom"></div>
 
 <form id="new-msg-form" action="">
+  <input id="id" type="hidden" name="id" value="<%=@user_id%>">
   <label for="new-message"></label>
   <input type="hidden" name="user_id" value= "<%= @user_id %>" >
   <input id="new-message" type="text" name="new-message">
