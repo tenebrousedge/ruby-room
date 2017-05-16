@@ -15,6 +15,7 @@ RSpec.configure do |config|
 end
 
 
+
 RSpec.configure do |config|
   config.after(:each) do
     User.all.each do |d|
@@ -25,5 +26,6 @@ RSpec.configure do |config|
     end
   end
 end
+
 
 Dir[File.dirname(__FILE__) + '/../lib/*.rb'].each { |file| require file }

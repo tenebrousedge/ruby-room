@@ -5,9 +5,11 @@ var jsonData = {
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
   for (i=0; i < rawData.length; i++) {
-    $("#chatroom").append('<li>' + rawData[i].created_at + rawData[i].content + '</li>');
+    $("#chatroom").append('<li>' + rawData[i]['username'] + " | " + rawData[i]['display_time']+ " | " + rawData[i]['content'] + '</li>');
   }
+
 };
+
 $(document).ready(function() {
 
     var opts = {
@@ -37,6 +39,7 @@ $(document).ready(function() {
   var spinner = new Spinner(opts).spin(target);
 
   var async = function() {
+
     fetch("/data")
       .then(response => {
         if (response.ok) {
@@ -62,6 +65,8 @@ $(document).ready(function() {
         spinner2.stop();
       });
 
+    dataOrganize(jsonData.objects);
+
   };
 
   var target2 = document.getElementById("load-below");
@@ -69,18 +74,21 @@ $(document).ready(function() {
 
   $("#new-msg-form").submit(function(e){
     e.preventDefault();
-    spinner2.spin(target2)
 
+    spinner2.spin(target2)
     var newMessage = $("#new-message").val();
+
+    var user_id = $("#id").val();
+
     fetch('/chat/messages/new', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newMessage)
+      body: JSON.stringify(newMessage + "~||~" + user_id)
     });
     $("#new-message").val("");
   });
 
-  setInterval(async ,2000);
+  setInterval(async , 2000);
 });
