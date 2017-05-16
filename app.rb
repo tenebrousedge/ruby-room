@@ -103,5 +103,9 @@ post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
   json_string = JSON.parse(request.env["rack.input"].read)
   values = json_string.split("~||~")
-  Message.create(content: values[0], user_id: values[1] )
+  Message.create(
+    content: values[0],
+    user_id: values[1],
+    display_time: Time.new.strftime("at %I:%M%p")
+  )
 end
