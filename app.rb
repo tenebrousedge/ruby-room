@@ -87,15 +87,6 @@ get '/chat/' do
   end
 end
 
-get '/active-users' do
-  content_type :json
-  HashMash.active_users.to_json
-end
-
-get '/data' do
-  content_type :json
-  HashMash.mash_the_hash.to_json
-end
 
 post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
@@ -106,4 +97,21 @@ post '/chat/messages/new' do
     user_id: values[1],
     display_time: Time.new.in_time_zone('Pacific Time (US & Canada)').strftime("%I:%M %P")
   )
+end
+
+#JSON DATA SERVING
+
+get '/active-users' do
+  content_type :json
+  HashMash.active_users.to_json
+end
+
+post '/data' do
+  lastMessage = JSON.parse(request.env["rack.input"].read)
+  redirect '/data'
+end
+
+get '/data' do
+  content_type :json
+  HashMash.mash_the_hash.to_json
 end
