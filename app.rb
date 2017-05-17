@@ -11,6 +11,7 @@ enable  :sessions, :logging
 
 get '/' do
   #login
+  @user = User.find_by(:uuid => session[:uuid])
   erb :index
 end
 
@@ -20,7 +21,7 @@ end
 
 post "/signup" do
     user = User.new(:username => params['username'], :password => params['password'])
-    if user.save
+    if user.save && params['agree'] == "agree"
         redirect "/"
     else
         redirect "/failure"
@@ -51,16 +52,6 @@ get '/user/' do
   else
     erb(:failure)
   end
-end
-
-post '/user/new' do
-  #creates a new user
-  User.create(username: params['user-name'], password: params['user-password'], activity: false)
-end
-
-patch '/user/name/:id' do
-  #edits user
-  User.update(username: params['new-name'], password: params['new-password'])
 end
 
 delete '/user/:id/delete' do
@@ -113,6 +104,6 @@ post '/chat/messages/new' do
   Message.create(
     content: values[0],
     user_id: values[1],
-    display_time: Time.new.strftime("at %I:%M%p")
+    display_time: Time.new.strftime("%I:%M %P")
   )
 end

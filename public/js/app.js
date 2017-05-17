@@ -5,7 +5,7 @@ var jsonData = {
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
   for (i=0; i < rawData.length; i++) {
-    $("#chatroom").append('<li>' + rawData[i]['username'] + " | " + rawData[i]['display_time']+ " | " + rawData[i]['content'] + '</li>');
+    $("#chatroom").append('<li>' + '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] + '</li>');
   }
 };
 
@@ -15,6 +15,8 @@ var displayUsers = function(userData) {
   $("#users").append(user['username'] + "<br>");
   });
 };
+
+
 
 $(document).ready(function() {
 
@@ -93,6 +95,8 @@ $(document).ready(function() {
       .then(function() {
         displayUsers(jsonData.objects)
       });
+
+      $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 1000);
   };
 
   var target2 = document.getElementById("load-below");

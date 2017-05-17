@@ -5,32 +5,36 @@
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <link  rel='stylesheet' href="/css/styles.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Nunito" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script src="/js/spin.js" type="text/javascript"></script>
   <script src="/js/app.js" type="text/javascript"></script>
-  
+
 </head>
+
 <body>
+  <% if @user != nil %>
+  <div class="nav">
+    <div class="container">
+      <a href="/" class="ruby">Ruby Room</a>
+      <div class="nav-contents">
+        <span class="ruby">Hello, <%= @user.username %></span>
+        <a href="/signout">Logout</a>
+        <a href="/user/">Account Settings</a>
+      </div>
+    </div>
+  </div>
+  <% end %>
   <div class="container">
-    <div class="jumbotron">
-      <h1>The Ruby Colored Room:</h1>
-    </div>
-    <hr>
-    <div>
+    <br><br>
+
     <%= yield %>
-    </div>
-
-    <br>
     <hr>
-    <br>
-
-    <div id="navigation">
-      <ul>
-        <a class="btn btn-primary" href="/signup">Create New Account</a>
-        <a class="btn btn-danger" href="/signout">Sign Out</a>
-      </ul>
+    <div id="footer">
+      <p><a href="/">&copy; The Ruby Room Co. <%= Time.new.year %></a></p>
     </div>
 
+    <br><br>
   </div>
 </body>
 </html>
