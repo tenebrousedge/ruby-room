@@ -1,0 +1,13 @@
+<h2><%= @user.username %></h2>
+
+<div class="login-wrapper user-wrapper" id="edit-account-div">
+  <form action="/user/delete" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <label>Delete user</label>
+    <input type="checkbox" required><em>I am sure I would like to delete this user</em>
+    <br><br>
+    <button type="submit" id="delete-button">Submit</button>
+  </form>
+</div>
+
+<a href="/user/">Back to Account Settings</a>

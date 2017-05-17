@@ -54,9 +54,34 @@ get '/user/' do
   end
 end
 
-delete '/user/:id/delete' do
-  #deletes a user
-  User.destroy(User.find(params['id']))
+get '/user/edit' do
+  @user = User.find_by(:uuid => session[:uuid])
+  erb :edit
+end
+
+get '/user/delete' do
+  @user = User.find_by(:uuid => session[:uuid])
+  erb :delete
+end
+
+#edits a user
+patch '/user/edit' do
+  user = User.find_by(:uuid => session[:uuid])
+  new_name = params['edit-name']
+  new_password = params['edit-password']
+  if new_name != ""
+    user.update(username: new_name)
+  end
+  if new_password != ""
+    user.update(password: new_password)
+  end
+  redirect '/user/edit'
+end
+
+#deletes a user
+delete '/user/delete' do
+  User.find_by(:uuid => session[:uuid]).destroy
+  redirect '/'
 end
 
 get "/signout" do
@@ -73,11 +98,10 @@ end
 
 
 #CHAT PATH
-
 get '/chat/' do
   #chat page
   @user = User.find_by(:uuid => session[:uuid])
-  if @user != nil
+  if @user != nil && session[:uuid] != nil
     @user.update(activity: true)
     @messages = Message.all
     @user_id = session[:user_id]
