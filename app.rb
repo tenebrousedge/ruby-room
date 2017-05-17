@@ -11,6 +11,7 @@ enable  :sessions, :logging
 #login
 get '/' do
   @user = User.find_by(:uuid => session[:uuid])
+  LastMessage.create(message_id: "none")
   erb :index
 end
 
@@ -179,6 +180,8 @@ end
 
 post '/data' do
   lastMessage = JSON.parse(request.env["rack.input"].read)
+  last_stored_message = LastMessage.find_by(:id => 1)
+  last_stored_message.update(message_id: lastMessage)
   redirect '/data'
 end
 
