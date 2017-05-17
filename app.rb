@@ -12,6 +12,7 @@ enable  :sessions, :logging
 #login
 get '/' do
   @user = User.find_by(:uuid => session[:uuid])
+  @variable = "Your IP address is #{request.ip}"
   erb :index
 end
 
