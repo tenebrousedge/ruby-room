@@ -1,0 +1,15 @@
+<h2><%= @user.username %></h2>
+
+<div class="login-wrapper user-wrapper">
+  <form action="/user/edit" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <label>Change your username</label>
+    <input type="text" name="edit-name">
+    <label>Change your password</label>
+    <input type="text" name="edit-password">
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<a href="/user/">Back to Account Settings</a>

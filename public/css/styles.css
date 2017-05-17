@@ -39,7 +39,6 @@ li {
 }
 
 
-
 /*--------------------------------INDEX STYLES*/
 /*--------------------------------INDEX STYLES*/
 /*--------------------------------INDEX STYLES*/
@@ -139,7 +138,10 @@ input[type='checkbox'] {
 .user-wrapper {
   text-align: left;
 }
-
+#delete-button {
+  color: #ed4545;
+  border: solid 1px #ed4545;
+}
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/
