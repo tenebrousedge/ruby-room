@@ -6,8 +6,8 @@ class Message < ActiveRecord::Base
 
 private
 
-def escape_chars
-  self.content = self.content.gsub(/[<>\/]/, '<' => '&#60', '>' => '&#62', '/' => '&#47')
-end
+  def escape_chars
+    self.content = self.content.gsub(/[<>\/]/, '<' => '&#60', '>' => '&#62', '/' => '&#47')
+  end
 
 end

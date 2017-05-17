@@ -13,10 +13,10 @@
 </head>
 
 <body>
-  <% if @user != nil %>
+  <% if @user != nil && session[:uuid] != nil %>
   <div class="nav">
     <div class="container">
-      <a href="/" class="ruby">Ruby Room</a>
+      <a href="/chat/" class="ruby">Ruby Room</a>
       <div class="nav-contents">
         <span class="ruby">Hello, <%= @user.username %></span>
         <a href="/signout">Logout</a>

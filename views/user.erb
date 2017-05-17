@@ -1,16 +1,13 @@
 <h2><%= @user.username %></h2>
 
-<div class="login-wrapper user-wrapper">
-  <form action="user/edit" method="post">
-    <input type="hidden" name="_method" value="patch">
-    <label>Change your username</label>
-    <input type="text" name="edit-name">
-    <label>Change your password</label>
-    <input type="text" name="edit-password">
-    <br>
-    <button type="submit">Submit</button>
-  </form>
+<div class="row">
+
+  <div class="col-md-6">
+    <ul style="padding:0;">
+      <li><a href="/user/edit">Edit Account</a></li>
+      <li><a href="/user/delete">Delete Account</a></li>
+      <li><a class="red-button" href="/chat/"><h3>Enter Ruby Room</h3></a></li>
+    </ul>
+  </div>
+
 </div>
-
-
-<a href="/chat/"><h3>Enter Ruby Room</h3></a>

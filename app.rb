@@ -54,8 +54,34 @@ get '/user/' do
   end
 end
 
+get '/user/edit' do
+  @user = User.find_by(:uuid => session[:uuid])
+  erb :edit
+end
+
+get '/user/delete' do
+  @user = User.find_by(:uuid => session[:uuid])
+  erb :delete
+end
+
+#edits a user
+patch '/user/edit' do
+  user = User.find_by(:uuid => session[:uuid])
+  new_name = params['edit-name']
+  new_password = params['edit-password']
+  if new_name != ""
+    user.update(username: new_name)
+  end
+  if new_password != ""
+    user.update(password: new_password)
+  end
+  redirect '/user/edit'
+end
+
+#deletes a user
 delete '/user/delete' do
-  User.destroy(User.find_by(:uuid => session[:uuid]))
+  User.find_by(:uuid => session[:uuid]).destroy
+  redirect '/'
 end
 
 get "/signout" do
@@ -72,7 +98,6 @@ end
 
 
 #CHAT PATH
-
 get '/chat/' do
   #chat page
   @user = User.find_by(:uuid => session[:uuid])
@@ -110,7 +135,7 @@ post '/chat/messages/new' do
   Message.create(
     content: values[0],
     user_id: values[1],
-    display_time: Time.new.strftime("%I:%M %P")
+    display_time: Time.new.in_time_zone('Pacific Time (US & Canada)').strftime("%I:%M %P")
   )
 end
 
@@ -124,4 +149,14 @@ post '/message/delete' do
   json_string = JSON.parse(request.env["rack.input"].read)
   message = Message.find(json_string)
   message.destroy()
+end
+
+helpers do
+    def log(call,msg = '')
+        severity = Logger.const_get(call.upcase)
+        return if LOGGER.level > severity
+
+        msg = yield if block_given?
+        LOGGER.send(call, "<#{request.ip}> #{msg}")
+    end
 end

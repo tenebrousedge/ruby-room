@@ -27,7 +27,6 @@ var displayUsers = function(userData) {
   });
 };
 
-
 $(document).ready(function() {
 
     var opts = {
@@ -105,6 +104,8 @@ $(document).ready(function() {
       .then(function() {
         displayUsers(jsonData.objects)
       });
+
+      $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 500);
   };
 
   var target2 = document.getElementById("load-below");
