@@ -7,20 +7,28 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 require 'bcrypt'
 enable  :sessions, :logging
-#LOGIN PATH
 
+#login
 get '/' do
-  #login
   @user = User.find_by(:uuid => session[:uuid])
   erb :index
 end
 
+# path to signup form
 get '/signup' do
   erb :signup
 end
 
+# add a user to the db
 post "/signup" do
-    user = User.new(:username => params['username'], :password => params['password'])
+  
+    user = User.new(
+    :username => params['username'],
+    :password => params['password'],
+    :profile_picture => "/img/no-profile-picture.jpg",
+    :about_me => "no description available"
+    )
+
     if user.save && params['agree'] == "agree"
         redirect "/"
     else
@@ -28,6 +36,7 @@ post "/signup" do
     end
 end
 
+# create uuid on login
 post "/login" do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
@@ -41,11 +50,8 @@ post "/login" do
     end
 end
 
-
-#USER PATH
-
+#user account
 get '/user/' do
-  #user account
   @user = User.find_by(:uuid => session[:uuid])
   if @user != nil && session[:uuid] != nil
     erb :user
@@ -54,17 +60,39 @@ get '/user/' do
   end
 end
 
+# path to edit a user's profile info
+get '/user/profile' do
+  @user = User.find_by(:uuid => session[:uuid])
+  erb :profile
+end
+
+# path to edit a user's account info
 get '/user/edit' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :edit
 end
 
+# path to delets a user
 get '/user/delete' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :delete
 end
 
-#edits a user
+#POST add infor to user profile
+post '/user/profile' do
+  user = User.find_by(:uuid => session[:uuid])
+  profile_image = params['profile-image']
+  about_me = params['about-me']
+  if profile_image != ""
+    user.update(profile_picture: profile_image)
+  end
+  if about_me != ""
+    user.update(about_me: about_me)
+  end
+  redirect '/user/'
+end
+
+#PATCH edits a user
 patch '/user/edit' do
   user = User.find_by(:uuid => session[:uuid])
   new_name = params['edit-name']
@@ -78,12 +106,13 @@ patch '/user/edit' do
   redirect '/user/edit'
 end
 
-#deletes a user
+#DELETE deletes a user
 delete '/user/delete' do
   User.find_by(:uuid => session[:uuid]).destroy
   redirect '/'
 end
 
+#signs a user out (ending session)
 get "/signout" do
   user = User.find_by(:uuid => session[:uuid])
   user.update(activity: false)
@@ -92,14 +121,13 @@ get "/signout" do
   erb :index
 end
 
+
 get "/failure" do
   erb :failure
 end
 
-
-#CHAT PATH
+#chat page
 get '/chat/' do
-  #chat page
   @user = User.find_by(:uuid => session[:uuid])
   if @user != nil && session[:uuid] != nil
     @user.update(activity: true)

@@ -7,7 +7,9 @@ class HashMash
         :id => message.id,
         :content => message.content,
         :display_time => message.display_time,
-        :username => user.username
+        :username => user.username,
+        :profile_picture => user.profile_picture,
+        :about_me => user.about_me
         })
     end
     mashed_hash_a

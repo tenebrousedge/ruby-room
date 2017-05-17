@@ -20,10 +20,22 @@ var dataOrganize = function(rawData) {
 
 };
 
+var userModal = function(input) {
+  $('#user-modal-image-div').html("<img class='profile-picture' src='" + input[1] + "'>");
+  $('#user-modal-name-div').html(input[0]);
+  $('#user-modal-about-div').html("<em>" + input[2] + "</em>");
+  $('#user-modal').show();
+};
+
+var modalHide = function() {
+  $('#user-modal').hide();
+}
+
 var displayUsers = function(userData) {
   $("#users").text("");
   userData.forEach(function(user) {
-  $("#users").append(user['username'] + "<br>");
+    user_a = [user['username'], user['profile_picture'], user['about_me'].replace('"', '&quote')];
+    $("#users").append("<a onclick='userModal([" + "\"" + user_a[0] + "\"," + "\"" + user_a[1] + "\"," + "\"" + user_a[2] + "\"" + "]);' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
   });
 };
 
