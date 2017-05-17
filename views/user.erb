@@ -1,3 +1,19 @@
+<div class="row">
+  <div class="col-xs-2">
+    <% if @user.profile_picture != nil %>
+      <img class="profile-picture" src="<%= @user.profile_picture %>" alt="">
+    <% else %>
+      <img class="profile-picture" src="/img/no-profile-picture.jpg" alt="">
+    <% end %>
+  </div>
+  <div class="col-sm-8">
+    <% if @user.about_me != nil %>
+      <h4><%= @user.about_me %></h4>
+    <% else %>
+      <h4><em>No discription available</em></h4>
+    <% end %>
+  </div>
+</div>
 <h2><%= @user.username %></h2>
 
 <div class="row">

@@ -6,6 +6,20 @@
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
+
+.nav {
+  width: 100%;
+  background-color: #F4F4F8;
+  padding: 8px 0;
+}
+.nav-contents {
+  float: right;
+}
+.nav-contents a {
+  float: right;
+  color: inherit;
+  margin-left: 1em;
+}
 .ruby {
   color: #932a2a;
 }
@@ -119,19 +133,26 @@ input[type='checkbox'] {
 .time-span {
   color: #777;
 }
-.nav {
+#user-modal {
   width: 100%;
-  background-color: #F4F4F8;
-  padding: 8px 0;
+  height: 100%;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
 }
-.nav-contents {
-  float: right;
+#user-modal-div {
+  max-width: 600px;
+  width: 90%;
+  display: block;
+  margin: 100px auto 0 auto;
+  text-align: center;
+  color: white;
+  font-size: 2em;
 }
-.nav-contents a {
-  float: right;
-  color: inherit;
-  margin-left: 1em;
-}
+
 /*-------------------------USER PAGE STYLES*/
 /*-------------------------USER PAGE STYLES*/
 /*-------------------------USER PAGE STYLES*/
@@ -141,6 +162,10 @@ input[type='checkbox'] {
 #delete-button {
   color: #ed4545;
   border: solid 1px #ed4545;
+}
+.profile-picture {
+  border-radius: 50%;
+  width: 100%;
 }
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/

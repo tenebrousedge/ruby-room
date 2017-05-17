@@ -1,0 +1,15 @@
+<h2><%= @user.username %></h2>
+
+<div class="login-wrapper user-wrapper">
+  <form action="/user/profile" method="post">
+    <input type="hidden" name="_method" value="post">
+    <label>Profile picture url</label>
+    <input type="text" name="profile-image">
+    <label>About me:</label>
+    <input type="text" name="about-me">
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<a href="/user/">Back to Account Settings</a>

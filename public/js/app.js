@@ -9,13 +9,21 @@ var dataOrganize = function(rawData) {
   }
 };
 
+var userModal = function(input) {
+  $('#user-modal-div').html(input);
+  $('#user-modal').show();
+};
+
+var modalHide = function() {
+  $('#user-modal').hide();
+}
+
 var displayUsers = function(userData) {
   $("#users").text("");
   userData.forEach(function(user) {
-  $("#users").append(user['username'] + "<br>");
+  $("#users").append("<a onclick='userModal(" + "\"" +  user['username'] + "\"" + ");' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
   });
 };
-
 
 
 $(document).ready(function() {

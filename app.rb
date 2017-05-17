@@ -53,25 +53,39 @@ get '/user/' do
   end
 end
 
-# edit a user's profile info
+# path to edit a user's profile info
 get '/user/profile' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :profile
 end
 
-# edit a user's account info
+# path to edit a user's account info
 get '/user/edit' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :edit
 end
 
-# delets a user
+# path to delets a user
 get '/user/delete' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :delete
 end
 
-#edits a user
+#POST add infor to user profile
+post '/user/profile' do
+  user = User.find_by(:uuid => session[:uuid])
+  profile_image = params['profile-image']
+  about_me = params['about-me']
+  if profile_image != ""
+    user.update(profile_picture: profile_image)
+  end
+  if about_me != ""
+    user.update(about_me: about_me)
+  end
+  redirect '/user/'
+end
+
+#PATCH edits a user
 patch '/user/edit' do
   user = User.find_by(:uuid => session[:uuid])
   new_name = params['edit-name']
@@ -85,7 +99,7 @@ patch '/user/edit' do
   redirect '/user/edit'
 end
 
-#deletes a user
+#DELETE deletes a user
 delete '/user/delete' do
   User.find_by(:uuid => session[:uuid]).destroy
   redirect '/'
