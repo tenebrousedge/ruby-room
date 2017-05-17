@@ -171,11 +171,14 @@ input[type='checkbox'] {
   color: #ed4545;
   border: solid 1px #ed4545;
 }
-.profile-picture {
+.profile-picture-wrapper {
   border-radius: 50%;
-  width: 100%;
-  max-width: 200px;
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
 }
+
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/
