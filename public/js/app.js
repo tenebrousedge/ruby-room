@@ -10,7 +10,9 @@ var dataOrganize = function(rawData) {
 };
 
 var userModal = function(input) {
-  $('#user-modal-div').html(input);
+  $('#user-modal-div').append(input[0]);
+  $('#user-modal-div').append(input[1]);
+  $('#user-modal-div').append(input[2]);
   $('#user-modal').show();
 };
 
@@ -21,7 +23,8 @@ var modalHide = function() {
 var displayUsers = function(userData) {
   $("#users").text("");
   userData.forEach(function(user) {
-  $("#users").append("<a onclick='userModal(" + "\"" +  user['username'] + "\"" + ");' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
+    user_a = [user['username'], user['profile_picture'], user['about_me']];
+  $("#users").append("<a onclick='userModal([" + "\""  + user_a + "\"" + "]);' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
   });
 };
 
