@@ -6,12 +6,14 @@
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
-
+.ruby {
+  color: #932a2a;
+}
+.ruby:hover {
+  color: #932a2a;
+}
 * {
   box-sizing: border-box;
-}
-body {
-  margin: 2em 0;
 }
 li {
   list-style: none;
@@ -117,6 +119,25 @@ input[type='checkbox'] {
 }
 .time-span {
   color: #777;
+}
+.nav {
+  width: 100%;
+  background-color: #F4F4F8;
+  padding: 8px 0;
+}
+.nav-contents {
+  float: right;
+}
+.nav-contents a {
+  float: right;
+  color: inherit;
+  margin-left: 1em;
+}
+/*-------------------------USER PAGE STYLES*/
+/*-------------------------USER PAGE STYLES*/
+/*-------------------------USER PAGE STYLES*/
+.user-wrapper {
+  text-align: left;
 }
 
 /* ----------------------LOADER ANIMATION*/
