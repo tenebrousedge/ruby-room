@@ -20,7 +20,7 @@ end
 
 post "/signup" do
     user = User.new(:username => params['username'], :password => params['password'])
-    if user.save
+    if user.save && params['agree'] == "agree"
         redirect "/"
     else
         redirect "/failure"
@@ -113,6 +113,6 @@ post '/chat/messages/new' do
   Message.create(
     content: values[0],
     user_id: values[1],
-    display_time: Time.new.strftime("at %I:%M%p")
+    display_time: Time.new.strftime("%I:%M %P")
   )
 end

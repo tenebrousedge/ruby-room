@@ -1,20 +1,134 @@
+/* ruby dark color 932a2a*/
+/* ruby light color #ed4545*/
+/*complimentary blue #1485CC*/
+/*complimentary darker blue #0971B2*/
+
+/*-----------------------------------GLOBALS*/
+/*-----------------------------------GLOBALS*/
+/*-----------------------------------GLOBALS*/
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 2em 0;
+}
 li {
   list-style: none;
 }
+.blue-button {
+  color: #1485CC;
+}
+.red-button {
+  color: #ed4545;
+  border-radius: 4px;
+}
+.blue-button:hover {
+  color: #1485CC;
+}
+.red-button:hover {
+  color: #ed4545;
+}
+#footer {
+  text-align: center;
+}
+#footer p a {
+  font-size: 1.15em;
+}
 
-/*LOADER ANIMATION*/
 
 
+/*--------------------------------INDEX STYLES*/
+/*--------------------------------INDEX STYLES*/
+/*--------------------------------INDEX STYLES*/
+
+#ruby-img {
+  margin: auto;
+  display: block;
+}
+#title, #footer p a {
+  font-family: 'Lobster', cursive;
+  text-align: center;
+  color: rgb(147, 42, 42);
+}
+.login-wrapper {
+  margin: 2em 0;
+  width: 100%;
+  text-align: center;
+}
+.login-wrapper form {
+  display: inline-block;
+  text-align: left;
+  border-radius: 5px;
+  background-color: #F4F4F8;
+  padding: 1em;
+}
+.login-wrapper input,
+.login-wrapper button,
+.login-wrapper label {
+  display: block;
+  margin: 5px 0;
+  width: 300px;
+
+}
+.login-wrapper button,
+.login-wrapper input {
+  background-color: white;
+  border: solid 1px #777;
+  border-radius: 3px;
+}
+.login-wrapper input {
+  border: solid 1px #E6E6EA;
+}
+input[type='checkbox'] {
+  display: inline;
+  width: auto;
+  margin-right: 4px;
+}
+
+/*-------------------------CHATROOM STYLES*/
+/*-------------------------CHATROOM STYLES*/
+/*-------------------------CHATROOM STYLES*/
+
+#chatroom {
+  border: solid 1px #E6E6EA;
+  height: 450px;
+  margin: 0 0 2em 0;
+  padding: 6px;
+  font-family: 'Nunito', sans-serif;
+  overflow: scroll;
+}
+#active {
+  color: #932a2a;
+}
+#send {
+  background-color: white;
+  border: solid 1px #777;
+  padding: 2px 4px;
+}
+#new-msg-form input {
+  padding: 2px;
+}
+#users {
+  color: #1485CC;
+}
+.name-span {
+  color: #ed4545;
+}
+.time-span {
+  color: #777;
+}
+
+/* ----------------------LOADER ANIMATION*/
+/* ----------------------LOADER ANIMATION*/
+/* ----------------------LOADER ANIMATION*/
 div#load {
   width: 50px;
   height: 50px;
   position: relative;
 }
-
-
 div#load-below {
   width: 50px;
   height: 50px;
   position: relative;
 }
-

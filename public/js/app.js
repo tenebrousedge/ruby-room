@@ -5,7 +5,7 @@ var jsonData = {
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
   for (i=0; i < rawData.length; i++) {
-    $("#chatroom").append('<li>' + rawData[i]['username'] + " | " + rawData[i]['display_time']+ " | " + rawData[i]['content'] + '</li>');
+    $("#chatroom").append('<li>' + '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] + '</li>');
   }
 };
 

@@ -1,19 +1,24 @@
+<div class="row">
 
-<div id="chatroom"></div>
+  <div class="col-sm-2">
+    <h4 id="active">Active users:</h4>
+    <div id="users">
+    </div>
+  </div>
 
+  <div class="col-sm-10">
 
-<div id="load"></div>
+    <div id="chatroom"><div id="load"></div></div>
 
-<form id="new-msg-form" action="">
-  <input id="id" type="hidden" name="id" value="<%=@user_id%>">
-  <label for="new-message"></label>
-  <input type="hidden" name="user_id" value= "<%= @user_id %>" >
-  <input id="new-message" type="text" name="new-message">
-  <button id="send" type="submit">Send</button>
-</form>
+    <form id="new-msg-form" action="">
+      <input id="id" type="hidden" name="id" value="<%=@user_id%>">
+      <label for="new-message"></label>
+      <input type="hidden" name="user_id" value= "<%= @user_id %>" >
+      <input id="new-message" type="text" name="new-message">
+      <button id="send" type="submit">Send</button>
+    </form>
 
-<div id="load-below"></div>
+    <div id="load-below"></div>
 
-<div id="users">
-  <h4>Users in the chat:</h4>
+  </div>
 </div>

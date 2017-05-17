@@ -5,32 +5,19 @@
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <link  rel='stylesheet' href="/css/styles.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Nunito" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script src="/js/spin.js" type="text/javascript"></script>
   <script src="/js/app.js" type="text/javascript"></script>
-  
+
 </head>
 <body>
   <div class="container">
-    <div class="jumbotron">
-      <h1>The Ruby Colored Room:</h1>
-    </div>
-    <hr>
-    <div>
     <%= yield %>
-    </div>
-
-    <br>
     <hr>
-    <br>
-
-    <div id="navigation">
-      <ul>
-        <a class="btn btn-primary" href="/signup">Create New Account</a>
-        <a class="btn btn-danger" href="/signout">Sign Out</a>
-      </ul>
+    <div id="footer">
+      <p><a href="/">&copy; The Ruby Room Co. <%= Time.new.year %></a></p>
     </div>
-
   </div>
 </body>
 </html>
