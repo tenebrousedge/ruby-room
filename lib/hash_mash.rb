@@ -4,6 +4,7 @@ class HashMash
     Message.all.each do |message|
       user = User.find(message.user_id)
       mashed_hash_a.push({
+        :id => message.id,
         :content => message.content,
         :display_time => message.display_time,
         :username => user.username,

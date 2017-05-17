@@ -4,9 +4,20 @@ var jsonData = {
 
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
+
   for (i=0; i < rawData.length; i++) {
-    $("#chatroom").append('<li>' + '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] + '</li>');
+    $("#chatroom").append('<form id="form' + rawData[i]['id'] + '" action="/message/' + rawData[i]['id'] + '/delete" method="post">' +
+    '<input type="hidden" name="_method" value="delete">');
+
+    $("#chatroom").append('<li><span class="redx"><a href="#" onclick="document.getElementById(\'form' + rawData[i]['id'] + '\').submit();">&#10005;</a></span>' +
+    '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] +
+    '<input type="hidden" name="remove-message" value="' + rawData[i]['id'] + '"/>' +
+    '</li>');
+
+    $("#chatroom").append('</form>');
   }
+
+
 };
 
 var userModal = function(input) {
@@ -27,7 +38,6 @@ var displayUsers = function(userData) {
     $("#users").append("<a onclick='userModal([" + "\"" + user_a[0] + "\"," + "\"" + user_a[1] + "\"," + "\"" + user_a[2] + "\"" + "]);' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
   });
 };
-
 
 $(document).ready(function() {
 

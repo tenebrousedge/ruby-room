@@ -53,7 +53,7 @@ end
 #user account
 get '/user/' do
   @user = User.find_by(:uuid => session[:uuid])
-  if @user != nil
+  if @user != nil && session[:uuid] != nil
     erb :user
   else
     erb(:failure)
@@ -133,10 +133,17 @@ get '/chat/' do
     @user.update(activity: true)
     @messages = Message.all
     @user_id = session[:user_id]
+    @admin = true
     erb :chat
   else
     erb(:failure)
   end
+end
+
+delete "/post/remove" do
+  post = Message.find(params['remove-message'])
+  post.destroy
+  redirect back
 end
 
 get '/active-users' do
@@ -158,4 +165,26 @@ post '/chat/messages/new' do
     user_id: values[1],
     display_time: Time.new.in_time_zone('Pacific Time (US & Canada)').strftime("%I:%M %P")
   )
+end
+
+delete '/message/:id/delete' do
+  message = Message.find(params['id'])
+  message.destroy()
+  redirect back
+end
+
+post '/message/delete' do
+  json_string = JSON.parse(request.env["rack.input"].read)
+  message = Message.find(json_string)
+  message.destroy()
+end
+
+helpers do
+    def log(call,msg = '')
+        severity = Logger.const_get(call.upcase)
+        return if LOGGER.level > severity
+
+        msg = yield if block_given?
+        LOGGER.send(call, "<#{request.ip}> #{msg}")
+    end
 end
