@@ -21,7 +21,14 @@ end
 
 # add a user to the db
 post "/signup" do
-    user = User.new(:username => params['username'], :password => params['password'])
+  
+    user = User.new(
+    :username => params['username'],
+    :password => params['password'],
+    :profile_picture => "/img/no-profile-picture.jpg",
+    :about_me => "no description available"
+    )
+
     if user.save && params['agree'] == "agree"
         redirect "/"
     else

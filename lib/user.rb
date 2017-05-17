@@ -4,8 +4,8 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :messages, dependent: :destroy
-
   before_save(:downcase_name)
+  before_update(:escape_chars)
 
 private
 
@@ -13,8 +13,9 @@ private
     self.username = username.downcase
   end
 
-  def generate_uuid
-    # uuid = SecureRandom.uuid
-    # self.update()
+  def escape_chars
+    if self.about_me != nil
+      self.about_me = self.about_me.gsub(/[<>\/\"\']/, '<' => '&#60', '>' => '&#62', '/' => '&#47', '"' => '&quot', "'" => "&#39")
+    end
   end
 end
