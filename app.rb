@@ -7,18 +7,19 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 require 'bcrypt'
 enable  :sessions, :logging
-#LOGIN PATH
 
+#login
 get '/' do
-  #login
   @user = User.find_by(:uuid => session[:uuid])
   erb :index
 end
 
+# path to signup form
 get '/signup' do
   erb :signup
 end
 
+# add a user to the db
 post "/signup" do
     user = User.new(:username => params['username'], :password => params['password'])
     if user.save && params['agree'] == "agree"
@@ -28,6 +29,7 @@ post "/signup" do
     end
 end
 
+# create uuid on login
 post "/login" do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
@@ -41,11 +43,8 @@ post "/login" do
     end
 end
 
-
-#USER PATH
-
+#user account
 get '/user/' do
-  #user account
   @user = User.find_by(:uuid => session[:uuid])
   if @user != nil
     erb :user
@@ -54,11 +53,19 @@ get '/user/' do
   end
 end
 
+# edit a user's profile info
+get '/user/profile' do
+  @user = User.find_by(:uuid => session[:uuid])
+  erb :profile
+end
+
+# edit a user's account info
 get '/user/edit' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :edit
 end
 
+# delets a user
 get '/user/delete' do
   @user = User.find_by(:uuid => session[:uuid])
   erb :delete
@@ -84,6 +91,7 @@ delete '/user/delete' do
   redirect '/'
 end
 
+#signs a user out (ending session)
 get "/signout" do
   user = User.find_by(:uuid => session[:uuid])
   user.update(activity: false)
@@ -92,14 +100,13 @@ get "/signout" do
   erb :index
 end
 
+
 get "/failure" do
   erb :failure
 end
 
-
-#CHAT PATH
+#chat page
 get '/chat/' do
-  #chat page
   @user = User.find_by(:uuid => session[:uuid])
   if @user != nil && session[:uuid] != nil
     @user.update(activity: true)
