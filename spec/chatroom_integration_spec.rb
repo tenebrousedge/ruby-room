@@ -11,7 +11,8 @@ describe('the user path', {:type => :feature}) do
     click_link('Create New Account')
     fill_in('username', :with =>'hello')
     fill_in('password', :with =>'world')
-    click_button('Send')
+    check 'agree'
+    click_button('Sign Up')
     fill_in('username', :with =>'hello')
     fill_in('password', :with =>'world')
     click_button('Login')
@@ -24,13 +25,14 @@ describe('the user path', {:type => :feature}) do
     click_link('Create New Account')
     fill_in('username', :with =>'eric')
     fill_in('password', :with =>'clapton')
-    click_button('Send')
+    check 'agree'
+    click_button('Sign Up')
     fill_in('username', :with =>'eric')
     fill_in('password', :with =>'clapton')
     click_button('Login')
     expect(page).to have_content 'eric' 
-    click_link 'chatroom'
-    expect(page).to have_content 'Users in the chat' 
+    click_link 'Enter Ruby Room'
+    expect(page).to have_content 'Active users' 
   end
 
   it 'allows the user to sign out' do
@@ -38,12 +40,13 @@ describe('the user path', {:type => :feature}) do
     click_link('Create New Account')
     fill_in('username', :with =>'eric')
     fill_in('password', :with =>'clapton')
-    click_button('Send')
+    check 'agree'
+    click_button('Sign Up')
     fill_in('username', :with =>'eric')
     fill_in('password', :with =>'clapton')
     click_button('Login')
-    click_link 'chatroom'
-    click_link 'Sign Out'
+    click_link 'Enter Ruby Room'
+    click_link 'Logout'
     expect(page).to have_content 'Login'
   end
 end
