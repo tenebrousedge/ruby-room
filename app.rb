@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'json'
 require 'pry'
 Bundler.require(:default)
+use Rack::Logger
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
@@ -19,9 +20,15 @@ get '/signup' do
   erb :signup
 end
 
+get '/admin' do
+  @users = User.all
+  @variable = "Your IP address is #{request.ip}"
+  erb :admin
+end
+
 # add a user to the db
 post "/signup" do
-  
+
     user = User.new(
     :username => params['username'],
     :password => params['password'],
@@ -177,14 +184,4 @@ post '/message/delete' do
   json_string = JSON.parse(request.env["rack.input"].read)
   message = Message.find(json_string)
   message.destroy()
-end
-
-helpers do
-    def log(call,msg = '')
-        severity = Logger.const_get(call.upcase)
-        return if LOGGER.level > severity
-
-        msg = yield if block_given?
-        LOGGER.send(call, "<#{request.ip}> #{msg}")
-    end
 end
