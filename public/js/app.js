@@ -1,5 +1,7 @@
 var jsonData = {
-  objects: []
+  objects: [], 
+  activeUsers: [], 
+	error: []
 };
 
 var dataOrganize = function(rawData) {
@@ -39,6 +41,16 @@ var displayUsers = function(userData) {
   });
 };
 
+
+var getLastMessageId = function() {
+  console.log(jsonData.objects)
+  if (jsonData.objects.length === 0) {
+    return "none";
+  } else {
+    return jsonData.objects.slice(-1).pop();
+  }
+};
+
 $(document).ready(function() {
 
     var opts = {
@@ -69,8 +81,17 @@ $(document).ready(function() {
 
   var async = function() {
 
-    fetch("/data")
-      .then(response => {
+   var lastMessageId = getLastMessageId();
+	 console.log(lastMessageId)
+
+    fetch('/data', {
+      method: 'post', redirect: 'follow',
+      headers: {
+        'content-type': 'application/json'
+      }, 
+      body: JSON.stringify(lastMessageId)
+    })
+		.then(response => {
         if (response.ok) {
           return response.json();
         } else {
@@ -81,18 +102,54 @@ $(document).ready(function() {
         }
       })
       .then(data => {
-        jsonData.objects = data;
+        if (data.ok === undefined) { //data.ok only exists if there is an error and will always eval to false.
+					jsonData.objects = data;
+        } else {
+          jsonData.error = data;
+        } 
       })
       .catch(error => {
         if (error.status !== 200) {
-          $("#chatroom").text(`Something isn't quite right: ${error.status} ${error.statusText}`);
+          $("body").text(`Something isn't quite right with the message get request: ${error.status} ${error.statusText}`);
+          console.log(error.status);
         }
       })
       .then(function() {
-        dataOrganize(jsonData.objects)
+        dataOrganize(jsonData.objects);
         spinner.stop();
         spinner2.stop();
       });
+
+
+
+
+
+
+    // fetch("/data")
+    //   .then(response => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     } else {
+    //       return Promise.reject({
+    //         status: response.status,
+    //         statusText: response.statusText
+    //       });
+    //     }
+    //   })
+    //   .then(data => {
+    //     jsonData.objects = data;
+    //   })
+    //   .catch(error => {
+    //     if (error.status !== 200) {
+    //       $("body").text(`Something isn't quite right with the message get request: ${error.status} ${error.statusText}`);
+    //       console.log(error.status)
+    //     }
+    //   })
+    //   .then(function() {
+    //     dataOrganize(jsonData.objects)
+    //     spinner.stop();
+    //     spinner2.stop();
+    //   });
 
     fetch("/active-users")
       .then(response => {
@@ -106,15 +163,15 @@ $(document).ready(function() {
         }
       })
       .then(data => {
-        jsonData.objects = data;
+        jsonData.activeUsers = data;
       })
       .catch(error => {
         if (error.status !== 200) {
-          $("#chatroom").text(`Something isn't quite right: ${error.status} ${error.statusText}`);
+          $("body").text(`Something isn't quite right with the user get request: ${error.status} ${error.statusText}`);
         }
       })
       .then(function() {
-        displayUsers(jsonData.objects)
+        displayUsers(jsonData.activeUsers);
       });
 
       $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 500);
@@ -128,7 +185,7 @@ $(document).ready(function() {
 
     spinner2.spin(target2)
     var newMessage = $("#new-message").val();
-
+		console.log(newMessage)
     var user_id = $("#id").val();
 
     fetch('/chat/messages/new', {

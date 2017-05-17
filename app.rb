@@ -140,6 +140,7 @@ get '/chat/' do
   end
 end
 
+
 delete "/post/remove" do
   post = Message.find(params['remove-message'])
   post.destroy
@@ -156,6 +157,7 @@ get '/data' do
   HashMash.mash_the_hash.to_json
 end
 
+
 post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
   json_string = JSON.parse(request.env["rack.input"].read)
@@ -165,6 +167,24 @@ post '/chat/messages/new' do
     user_id: values[1],
     display_time: Time.new.in_time_zone('Pacific Time (US & Canada)').strftime("%I:%M %P")
   )
+end
+
+
+#JSON DATA SERVING
+
+get '/active-users' do
+  content_type :json
+  HashMash.active_users.to_json
+end
+
+post '/data' do
+  lastMessage = JSON.parse(request.env["rack.input"].read)
+  redirect '/data'
+end
+
+get '/data' do
+  content_type :json
+  HashMash.mash_the_hash.to_json
 end
 
 delete '/message/:id/delete' do
@@ -188,3 +208,4 @@ helpers do
         LOGGER.send(call, "<#{request.ip}> #{msg}")
     end
 end
+
