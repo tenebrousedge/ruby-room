@@ -104,6 +104,6 @@ post '/chat/messages/new' do
   Message.create(
     content: values[0],
     user_id: values[1],
-    display_time: Time.new.strftime("%I:%M %P")
+    display_time: Time.new.in_time_zone('Pacific Time (US & Canada)').strftime("%I:%M %P")
   )
 end

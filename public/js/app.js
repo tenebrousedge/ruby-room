@@ -96,7 +96,7 @@ $(document).ready(function() {
         displayUsers(jsonData.objects)
       });
 
-      $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 1000);
+      $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 500);
   };
 
   var target2 = document.getElementById("load-below");
