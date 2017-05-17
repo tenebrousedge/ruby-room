@@ -47,16 +47,15 @@ end
 get '/user/' do
   #user account
   @user = User.find_by(:uuid => session[:uuid])
-  if @user != nil
+  if @user != nil && session[:uuid] != nil
     erb :user
   else
     erb(:failure)
   end
 end
 
-delete '/user/:id/delete' do
-  #deletes a user
-  User.destroy(User.find(params['id']))
+delete '/user/delete' do
+  User.destroy(User.find_by(:uuid => session[:uuid]))
 end
 
 get "/signout" do
@@ -77,14 +76,21 @@ end
 get '/chat/' do
   #chat page
   @user = User.find_by(:uuid => session[:uuid])
-  if @user != nil
+  if @user != nil && session[:uuid] != nil
     @user.update(activity: true)
     @messages = Message.all
     @user_id = session[:user_id]
+    @admin = true
     erb :chat
   else
     erb(:failure)
   end
+end
+
+delete "/post/remove" do
+  post = Message.find(params['remove-message'])
+  post.destroy
+  redirect back
 end
 
 get '/active-users' do
@@ -106,4 +112,16 @@ post '/chat/messages/new' do
     user_id: values[1],
     display_time: Time.new.strftime("%I:%M %P")
   )
+end
+
+delete '/message/:id/delete' do
+  message = Message.find(params['id'])
+  message.destroy()
+  redirect back
+end
+
+post '/message/delete' do
+  json_string = JSON.parse(request.env["rack.input"].read)
+  message = Message.find(json_string)
+  message.destroy()
 end

@@ -9,6 +9,12 @@
 .ruby {
   color: #932a2a;
 }
+
+.redx {
+  color: red;
+  display: none;
+}
+
 .ruby:hover {
   color: #932a2a;
 }
