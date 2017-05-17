@@ -12,9 +12,4 @@ private
   def downcase_name
     self.username = username.downcase
   end
-
-  def generate_uuid
-    # uuid = SecureRandom.uuid
-    # self.update()
-  end
 end
