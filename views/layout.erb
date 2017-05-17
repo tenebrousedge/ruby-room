@@ -13,10 +13,17 @@
 </head>
 
 <body>
-  <% if @user != nil %>
+  <div id="user-modal" onclick="modalHide();">
+    <div id="user-modal-content">
+      <div id="user-modal-image-div"></div>
+      <div id="user-modal-name-div"></div>
+      <div id="user-modal-about-div"></div>
+    </div>
+  </div>
+  <% if @user != nil && session[:uuid] != nil %>
   <div class="nav">
     <div class="container">
-      <a href="/" class="ruby">Ruby Room</a>
+      <a href="/chat/" class="ruby">Ruby Room</a>
       <div class="nav-contents">
         <span class="ruby">Hello, <%= @user.username %></span>
         <a href="/signout">Logout</a>

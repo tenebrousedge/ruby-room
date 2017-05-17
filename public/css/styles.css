@@ -6,9 +6,29 @@
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
+
+.nav {
+  width: 100%;
+  background-color: #F4F4F8;
+  padding: 8px 0;
+}
+.nav-contents {
+  float: right;
+}
+.nav-contents a {
+  float: right;
+  color: inherit;
+  margin-left: 1em;
+}
 .ruby {
   color: #932a2a;
 }
+
+.redx {
+  color: red;
+  display: none;
+}
+
 .ruby:hover {
   color: #932a2a;
 }
@@ -37,7 +57,6 @@ li {
 #footer p a {
   font-size: 1.15em;
 }
-
 
 
 /*--------------------------------INDEX STYLES*/
@@ -120,26 +139,49 @@ input[type='checkbox'] {
 .time-span {
   color: #777;
 }
-.nav {
+#user-modal {
   width: 100%;
-  background-color: #F4F4F8;
-  padding: 8px 0;
+  height: 100%;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
 }
-.nav-contents {
-  float: right;
+#user-modal-content {
+  max-width: 600px;
+  width: 90%;
+  display: block;
+  margin: 100px auto 0 auto;
+  text-align: center;
+  color: white;
+  overflow: scroll;
 }
-.nav-contents a {
-  float: right;
-  color: inherit;
-  margin-left: 1em;
+#user-modal-image-div,
+#user-modal-name-div,
+#user-modal-about-div {
+  display: block;
 }
+#user-modal-name-div {
+  font-size: 2em;
+}
+
 /*-------------------------USER PAGE STYLES*/
 /*-------------------------USER PAGE STYLES*/
 /*-------------------------USER PAGE STYLES*/
 .user-wrapper {
   text-align: left;
 }
-
+#delete-button {
+  color: #ed4545;
+  border: solid 1px #ed4545;
+}
+.profile-picture {
+  border-radius: 50%;
+  width: 100%;
+  max-width: 200px;
+}
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/
 /* ----------------------LOADER ANIMATION*/
