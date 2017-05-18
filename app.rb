@@ -12,7 +12,7 @@ enable  :sessions, :logging
 #login
 get '/' do
   @user = User.find_by(:uuid => session[:uuid])
-  LastMessage.create(message_id: "none")
+  LastMessage.find_or_create_by(id: 1)
   @variable = "Your IP address is #{request.ip}"
   erb :index
 end
@@ -174,10 +174,6 @@ get '/active-users' do
   HashMash.active_users.to_json
 end
 
-get '/data' do
-  content_type :json
-  HashMash.mash_the_hash.to_json
-end
 
 
 post '/chat/messages/new' do
@@ -197,6 +193,12 @@ get '/active-users' do
   HashMash.active_users.to_json
 end
 
+get '/data' do
+  last_stored_message = LastMessage.find_by(id: "1")['message_id']
+  content_type :json
+  HashMash.mash_the_hash(last_stored_message).to_json
+end
+
 post '/data' do
   lastMessage = JSON.parse(request.env["rack.input"].read)
   last_stored_message = LastMessage.find_by(:id => 1)
@@ -204,6 +206,8 @@ post '/data' do
   redirect '/data'
 end
 
+
+#MESSAGE CRUD
 
 delete '/message/:id/delete' do
   message = Message.find(params['id'])

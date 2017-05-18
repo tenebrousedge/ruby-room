@@ -1,24 +1,27 @@
 var jsonData = {
   objects: [],
+  tempObjects: [],
   activeUsers: [],
 	error: []
 };
 
 var dataOrganize = function(rawData) {
-  $("#chatroom").text("");
+  // $("#chatroom").text("");
+  if (rawData.length != 0) {
+    for (i=0; i < rawData.length; i++) {
+      $("#chatroom").append('<form id="form' + rawData[i]['id'] + '" action="/message/' + rawData[i]['id'] + '/delete" method="post">' +
+      '<input type="hidden" name="_method" value="delete">');
 
-  for (i=0; i < rawData.length; i++) {
-    $("#chatroom").append('<form id="form' + rawData[i]['id'] + '" action="/message/' + rawData[i]['id'] + '/delete" method="post">' +
-    '<input type="hidden" name="_method" value="delete">');
+      $("#chatroom").append('<li><span class="redx"><a href="#" onclick="document.getElementById(\'form' + rawData[i]['id'] + '\').submit();">&#10005; </a></span> ' +
+      '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] +
+      '<input type="hidden" name="remove-message" value="' + rawData[i]['id'] + '"/>' +
+      '</li>');
 
-    $("#chatroom").append('<li><span class="redx"><a href="#" onclick="document.getElementById(\'form' + rawData[i]['id'] + '\').submit();">&#10005; </a></span> ' +
-    '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] +
-    '<input type="hidden" name="remove-message" value="' + rawData[i]['id'] + '"/>' +
-    '</li>');
-
-    $("#chatroom").append('</form>');
+      $("#chatroom").append('</form>');
+    }
   }
-
+  jsonData.objects = jsonData.objects.concat(jsonData.tempObjects);
+  jsonData.tempObjects = [];
 
 };
 
@@ -45,11 +48,11 @@ var displayUsers = function(userData) {
 
 
 var getLastMessageId = function() {
-  console.log(jsonData.objects)
+  console.log("objects", jsonData.objects)
   if (jsonData.objects.length === 0) {
-    return "none";
+    return "0";
   } else {
-    return jsonData.objects.slice(-1).pop();
+    return jsonData.objects.slice(-1).pop().id;
   }
 };
 
@@ -85,7 +88,7 @@ $(document).ready(function() {
   var async = function() {
 
    var lastMessageId = getLastMessageId();
-	 console.log(lastMessageId)
+	 console.log("lastmessageid", lastMessageId)
 
     fetch('/data', {
       method: 'post', redirect: 'follow',
@@ -106,7 +109,13 @@ $(document).ready(function() {
       })
       .then(data => {
         if (data.ok === undefined) { //data.ok only exists if there is an error and will always eval to false.
-					jsonData.objects = data;
+          if (data.length !== 0) {
+					  jsonData.tempObjects = data;
+            console.log(jsonData.tempObjects);
+          } else {
+            console.log("There's no data", data);
+          }
+          console.log("data: " + data);
         } else {
           jsonData.error = data;
         }
@@ -118,7 +127,7 @@ $(document).ready(function() {
         }
       })
       .then(function() {
-        dataOrganize(jsonData.objects);
+        dataOrganize(jsonData.tempObjects);
         spinner.stop();
         spinner2.stop();
       });
@@ -201,5 +210,5 @@ $(document).ready(function() {
     $("#new-message").val("");
   });
 
-  setInterval(async , 2000);
+  setInterval(async , 500);
 });
