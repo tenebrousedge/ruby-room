@@ -21,16 +21,6 @@ var dataOrganize = function(rawData) {
   }
 };
 
-
-var getLastMessageId = function() {
-  console.log(jsonData.objects)
-  if (jsonData.objects.length === 0) {
-    return "none";
-  } else {
-    return jsonData.objects.slice(-1).pop();
-  }
-};
-
 $(document).ready(function() {
 
   // JS Spinner animation script
@@ -65,17 +55,8 @@ $(document).ready(function() {
   // async call for information
   var async = function() {
 
-   var lastMessageId = getLastMessageId();
-	 console.log(lastMessageId)
-
-    fetch('/data', {
-      method: 'post', redirect: 'follow',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(lastMessageId)
-    })
-		.then(response => {
+    fetch("/data")
+      .then(response => {
         if (response.ok) {
           return response.json();
         } else {
@@ -86,54 +67,19 @@ $(document).ready(function() {
         }
       })
       .then(data => {
-        if (data.ok === undefined) { //data.ok only exists if there is an error and will always eval to false.
-					jsonData.objects = data;
-        } else {
-          jsonData.error = data;
-        }
+        jsonData.objects = data;
       })
       .catch(error => {
         if (error.status !== 200) {
           $("body").text(`Something isn't quite right with the message get request: ${error.status} ${error.statusText}`);
-          console.log(error.status);
+          console.log(error.status)
         }
       })
       .then(function() {
-        dataOrganize(jsonData.objects);
+        dataOrganize(jsonData.objects)
         spinner.stop();
         spinner2.stop();
       });
-
-
-
-
-
-
-    // fetch("/data")
-    //   .then(response => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     } else {
-    //       return Promise.reject({
-    //         status: response.status,
-    //         statusText: response.statusText
-    //       });
-    //     }
-    //   })
-    //   .then(data => {
-    //     jsonData.objects = data;
-    //   })
-    //   .catch(error => {
-    //     if (error.status !== 200) {
-    //       $("body").text(`Something isn't quite right with the message get request: ${error.status} ${error.statusText}`);
-    //       console.log(error.status)
-    //     }
-    //   })
-    //   .then(function() {
-    //     dataOrganize(jsonData.objects)
-    //     spinner.stop();
-    //     spinner2.stop();
-    //   });
 
     fetch("/active-users")
       .then(response => {
