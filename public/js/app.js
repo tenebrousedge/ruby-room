@@ -5,8 +5,32 @@ var jsonData = {
 	error: []
 };
 
+//spinner options
+var opts = {
+lines: 13 // The number of lines to draw
+, length: 28 // The length of each line
+, width: 14 // The line thickness
+, radius: 42 // The radius of the inner circle
+, scale: 0.15 // Scales overall size of the spinner
+, corners: 1 // Corner roundness (0..1)
+, color: '#000' // #rgb or #rrggbb or array of colors
+, opacity: 0.25 // Opacity of the lines
+, rotate: 0 // The rotation offset
+, direction: 1 // 1: clockwise, -1: counterclockwise
+, speed: 1 // Rounds per second
+, trail: 60 // Afterglow percentage
+, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+, zIndex: 2e9 // The z-index (defaults to 2000000000)
+, className: 'spinner' // The CSS class to assign to the spinner
+, top: '50px' // Top position relative to parent
+, left: '50%' // Left position relative to parent
+, shadow: false // Whether to render a shadow
+, hwaccel: false // Whether to use hardware acceleration
+, position: 'absolute' // Element positioning
+}
+
+//Displays chatroom messages and users
 var dataOrganize = function(rawData) {
-  // $("#chatroom").text("");
   if (rawData.length != 0) {
     for (i=0; i < rawData.length; i++) {
       $("#chatroom").append('<form id="form' + rawData[i]['id'] + '" action="/message/' + rawData[i]['id'] + '/delete" method="post">' +
@@ -22,7 +46,15 @@ var dataOrganize = function(rawData) {
   }
   jsonData.objects = jsonData.objects.concat(jsonData.tempObjects);
   jsonData.tempObjects = [];
+};
 
+//displays online users
+var displayUsers = function(userData) {
+  $("#users").text("");
+  userData.forEach(function(user) {
+    user_a = [user['username'], user['profile_picture'], user['about_me'].replace('"', '&quote')];
+    $("#users").append("<a onclick='userModal([" + "\"" + user_a[0] + "\"," + "\"" + user_a[1] + "\"," + "\"" + user_a[2] + "\"" + "]);' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
+  });
 };
 
 var userModal = function(input) {
@@ -37,16 +69,8 @@ var modalHide = function() {
   $('#user-modal').hide();
 }
 
-var displayUsers = function(userData) {
-  $("#users").text("");
-  userData.forEach(function(user) {
-    user_a = [user['username'], user['profile_picture'], user['about_me'].replace('"', '&quote')];
-    $("#users").append("<a onclick='userModal([" + "\"" + user_a[0] + "\"," + "\"" + user_a[1] + "\"," + "\"" + user_a[2] + "\"" + "]);' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
-  });
-};
 
-
-
+//
 var getLastMessageId = function() {
   console.log("objects", jsonData.objects)
   if (jsonData.objects.length === 0) {
@@ -56,32 +80,7 @@ var getLastMessageId = function() {
   }
 };
 
-
 $(document).ready(function() {
-
-    var opts = {
-    lines: 13 // The number of lines to draw
-  , length: 28 // The length of each line
-  , width: 14 // The line thickness
-  , radius: 42 // The radius of the inner circle
-  , scale: 0.15 // Scales overall size of the spinner
-  , corners: 1 // Corner roundness (0..1)
-  , color: '#000' // #rgb or #rrggbb or array of colors
-  , opacity: 0.25 // Opacity of the lines
-  , rotate: 0 // The rotation offset
-  , direction: 1 // 1: clockwise, -1: counterclockwise
-  , speed: 1 // Rounds per second
-  , trail: 60 // Afterglow percentage
-  , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-  , zIndex: 2e9 // The z-index (defaults to 2000000000)
-  , className: 'spinner' // The CSS class to assign to the spinner
-  , top: '50px' // Top position relative to parent
-  , left: '50%' // Left position relative to parent
-  , shadow: false // Whether to render a shadow
-  , hwaccel: false // Whether to use hardware acceleration
-  , position: 'absolute' // Element positioning
-  }
-
   var target = document.getElementById("load");
   var spinner = new Spinner(opts).spin(target);
 
@@ -111,11 +110,7 @@ $(document).ready(function() {
         if (data.ok === undefined) { //data.ok only exists if there is an error and will always eval to false.
           if (data.length !== 0) {
 					  jsonData.tempObjects = data;
-            console.log(jsonData.tempObjects);
-          } else {
-            console.log("There's no data", data);
           }
-          console.log("data: " + data);
         } else {
           jsonData.error = data;
         }
@@ -134,37 +129,6 @@ $(document).ready(function() {
         spinner.stop();
         spinner2.stop();
       });
-
-
-
-
-
-
-    // fetch("/data")
-    //   .then(response => {
-    //     if (response.ok) {
-    //       return response.json();
-    //     } else {
-    //       return Promise.reject({
-    //         status: response.status,
-    //         statusText: response.statusText
-    //       });
-    //     }
-    //   })
-    //   .then(data => {
-    //     jsonData.objects = data;
-    //   })
-    //   .catch(error => {
-    //     if (error.status !== 200) {
-    //       $("body").text(`Something isn't quite right with the message get request: ${error.status} ${error.statusText}`);
-    //       console.log(error.status)
-    //     }
-    //   })
-    //   .then(function() {
-    //     dataOrganize(jsonData.objects)
-    //     spinner.stop();
-    //     spinner2.stop();
-    //   });
 
     fetch("/active-users")
       .then(response => {
@@ -198,7 +162,6 @@ $(document).ready(function() {
 
     spinner2.spin(target2)
     var newMessage = $("#new-message").val();
-		console.log(newMessage)
     var user_id = $("#id").val();
 
     fetch('/chat/messages/new', {
