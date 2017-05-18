@@ -20,6 +20,10 @@ ActiveRecord::Schema.define(version: 20170518170840) do
     t.string "address"
   end
 
+  create_table "last_messages", force: :cascade do |t|
+    t.string "message_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "content"
     t.integer "user_id"
