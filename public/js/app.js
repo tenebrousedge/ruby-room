@@ -43,6 +43,7 @@ var displayUsers = function(userData) {
 };
 
 
+
 var getLastMessageId = function() {
   console.log(jsonData.objects)
   if (jsonData.objects.length === 0) {
@@ -51,6 +52,7 @@ var getLastMessageId = function() {
     return jsonData.objects.slice(-1).pop();
   }
 };
+
 
 $(document).ready(function() {
 
