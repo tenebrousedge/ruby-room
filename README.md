@@ -36,47 +36,49 @@ The objective here was to create a functional front-end and back-end logic for a
 
 ## Installation
 
-* In order to run this app:
-  - Visit the pre-existing Heroku repository that has been created, and follow site usage instructions.
+You may visit the live version of the app <a href="">here</a>, or to run the app locally you can:
 
-* OR in order to host your own chatroom:
-  - Locate the git repository of this project.
-  - Clone or download the git repository onto your desktop.
-  - Locate home folder of the app "ie:/chatroom/"
-  - Once you have navigated into this folder, open the command line or shell.
-  - Once you have opened shell, run 'postgres' in the command line.
-  - Open a new window in the command line/shell and run 'psql' for easy viewing of the database.
-  - Open a third window in the command line and run the following commands:
-  - "rake db:create"
-  - "rake db:migrate"
-  - "bundle"
-  - run "ruby app.rb" which should open Sinatra.
-  - The page should display when you navigate to localhost:4567 in the browser of your choice.
+* Locate the git repository of this project.
+* Clone or download the git repository.
+* Using your command line, navigate to the directory containing the repo
+* Run this series of commands
+  * `$ postgres`
+  * `$ bundle install`
+  * `$ rake db:create`
+  * `$ rake db:migrate`
+  * `$ ruby app.rb`
+
+
+* In your browser, navigate to localhost:4567
 
 ## Usage
 
-Navigate to the 'index' page which should be the first page that you are directed to upon opening the app.  From there, navigate to the link to 'create new account', which will allow you to put in the user name and password for your new account.  Upon submitting the new account, you will be redirected to the login page, at which point logging in with your user name and password will now be possible.  You should be directed to a landing page for the individual user, where you can click the link 'Enter Ruby Room', where the chatroom will be immediately apparent.  You can then enter messages into the chat room with the 'send' button, which allows you to post messages that will appear to all users logged into that chat room near instantaneously.
+Navigate to the 'index' page which should be the first page that you are directed to upon opening the app. From there, navigate to the link to 'create new account', which will allow you to put in the user name and password for your new account. Upon submitting the new account, you will be redirected to the login page, at which point logging in with your user name and password will now be possible. You should be directed to a landing page for the individual user, where you can click the link 'Enter Ruby Room', where the chatroom will be immediately apparent. You can then enter messages into the chat room with the 'send' button, which allows you to post messages that will appear to all users logged into that chat room near instantaneously.
 
 ## Known Bugs
-There are currently no known bugs in these HTML, CSS, Bootstrap, javascript, jQuerey, Ajax, Ruby, Sinatra, PostgreSQL or Active Record files.
+There are currently no known bugs. If you discover a bug, please raise an issue here.
 
-#### Design sketch by Sean Pierce
+#### Page Views
 
 _landing page:_
-![](https://raw.githubusercontent.com/niklaslong/chatroom/sean-design/public/img/landing_page.png)
+![](https://github.com/niklaslong/chatroom/blob/master/public/img/landing-page.png?raw=true)
 _create an account:_
-![](https://raw.githubusercontent.com/niklaslong/chatroom/sean-design/public/img/creat_accout.png)
+![](https://github.com/niklaslong/chatroom/blob/master/public/img/create_account.png?raw=true)
+_view and edit profile info:_
+![](https://github.com/niklaslong/chatroom/blob/master/public/img/edit-profile.png?raw=true)
 _chat room:_
-![](https://raw.githubusercontent.com/niklaslong/chatroom/sean-design/public/img/chat.png)
+![](https://github.com/niklaslong/chatroom/blob/master/public/img/chat-view.png?raw=true)
+_view user info:_
+![](https://github.com/niklaslong/chatroom/blob/master/public/img/view-user-info.png?raw=true)
 
 ## Support and contact details
 
 For further support, please contact any contributing member of the group through their respective Github accounts. E-mails will not be listed here as this README is publicly displayed.
 
-##Technologies Used
+## Technologies Used
 
 This website was constructed using HTML, CSS, Javascript and Ruby as well as jQuerey, Ajax and Active Record elements.
 
 ## License
 
-Copyright (c) 2017 Ken Rutan.  This software is licensed under the MIT License.
+&copy; 2017 Ken Rutan, Niklas Long, Sean Pierce Sumler and Tanner Eustice.  This software is licensed under the **MIT License**.
