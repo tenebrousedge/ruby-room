@@ -6,7 +6,9 @@
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
 /*-----------------------------------GLOBALS*/
-
+body {
+  /*color?*/
+}
 .nav {
   width: 100%;
   background-color: #F4F4F8;
@@ -118,6 +120,7 @@ input[type='checkbox'] {
   padding: 6px;
   font-family: 'Nunito', sans-serif;
   overflow: scroll;
+  background-color: white;
 }
 #active {
   color: #932a2a;
@@ -156,7 +159,6 @@ input[type='checkbox'] {
   margin: 100px auto 0 auto;
   text-align: center;
   color: white;
-  overflow: scroll;
 }
 #user-modal-image-div,
 #user-modal-name-div,

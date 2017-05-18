@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'json'
 require 'pry'
 Bundler.require(:default)
+use Rack::Logger
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
@@ -12,6 +13,7 @@ enable  :sessions, :logging
 get '/' do
   @user = User.find_by(:uuid => session[:uuid])
   LastMessage.create(message_id: "none")
+  @variable = "Your IP address is #{request.ip}"
   erb :index
 end
 
@@ -20,14 +22,32 @@ get '/signup' do
   erb :signup
 end
 
+get '/admin' do
+  @users = User.all
+  @exiles = Exile.all
+  @variable = "Your IP address is #{request.ip}"
+  erb :admin
+end
+
 # add a user to the db
 post "/signup" do
-  
+
+  ip = request.ip
+  banned_ips = []
+  Exile.all.each do |exile|
+    banned_ips.push(exile.address.to_s)
+  end
+
+  if banned_ips.include? ip
+    redirect "/failure"
+  else
+
     user = User.new(
     :username => params['username'],
     :password => params['password'],
     :profile_picture => "/img/no-profile-picture.jpg",
-    :about_me => "no description available"
+    :about_me => "no description available",
+    :address => request.ip
     )
 
     if user.save && params['agree'] == "agree"
@@ -35,6 +55,7 @@ post "/signup" do
     else
         redirect "/failure"
     end
+  end
 end
 
 # create uuid on login
@@ -170,9 +191,7 @@ post '/chat/messages/new' do
   )
 end
 
-
 #JSON DATA SERVING
-
 get '/active-users' do
   content_type :json
   HashMash.active_users.to_json
@@ -185,10 +204,6 @@ post '/data' do
   redirect '/data'
 end
 
-get '/data' do
-  content_type :json
-  HashMash.mash_the_hash.to_json
-end
 
 delete '/message/:id/delete' do
   message = Message.find(params['id'])
@@ -202,13 +217,16 @@ post '/message/delete' do
   message.destroy()
 end
 
-helpers do
-    def log(call,msg = '')
-        severity = Logger.const_get(call.upcase)
-        return if LOGGER.level > severity
-
-        msg = yield if block_given?
-        LOGGER.send(call, "<#{request.ip}> #{msg}")
+post '/user/:id/ban' do
+  id = params['id']
+  user = User.find_by id: id
+  Message.all.each do |message|
+    if message.user_id == id
+      message.destroy()
     end
+  end
+  address = user.address
+  Exile.create(username: user.username, address: address)
+  user.destroy()
+  redirect back
 end
-

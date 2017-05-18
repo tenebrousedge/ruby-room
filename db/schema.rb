@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517231235) do
+
+ActiveRecord::Schema.define(version: 20170518000751) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+
   create_table "last_messages", force: :cascade do |t|
     t.string "message_id"
+  end
+
+  create_table "exiles", force: :cascade do |t|
+    t.string "username"
+    t.string "address"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -34,6 +42,7 @@ ActiveRecord::Schema.define(version: 20170517231235) do
     t.boolean "activity"
     t.string "profile_picture"
     t.string "about_me"
+    t.string "address"
   end
 
 end
