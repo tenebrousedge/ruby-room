@@ -1,6 +1,3 @@
-# chatroom
-Ruby team-week project
-
 # Ruby Room Chat Room Group Project
 
 #### _The Ruby Room Team, May 18th, 2017_
