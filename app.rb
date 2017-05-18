@@ -30,6 +30,7 @@ end
 
 # add a user to the db
 post "/signup" do
+
   ip = request.ip
   banned_ips = []
   Exile.all.each do |exile|
@@ -39,6 +40,7 @@ post "/signup" do
   if banned_ips.include? ip
     redirect "/failure"
   else
+
     user = User.new(
     :username => params['username'],
     :password => params['password'],
@@ -188,12 +190,16 @@ post '/chat/messages/new' do
   )
 end
 
+#JSON DATA SERVING
+get '/active-users' do
+  content_type :json
+  HashMash.active_users.to_json
+end
 
 post '/data' do
   lastMessage = JSON.parse(request.env["rack.input"].read)
   redirect '/data'
 end
-
 
 
 delete '/message/:id/delete' do
@@ -208,7 +214,6 @@ post '/message/delete' do
   message.destroy()
 end
 
-
 post '/user/:id/ban' do
   id = params['id']
   user = User.find_by id: id
@@ -222,15 +227,3 @@ post '/user/:id/ban' do
   user.destroy()
   redirect back
 end
-
-helpers do
-    def log(call,msg = '')
-        severity = Logger.const_get(call.upcase)
-        return if LOGGER.level > severity
-
-        msg = yield if block_given?
-        LOGGER.send(call, "<#{request.ip}> #{msg}")
-    end
-end
-
-

@@ -1,6 +1,6 @@
 var jsonData = {
-  objects: [], 
-  activeUsers: [], 
+  objects: [],
+  activeUsers: [],
 	error: []
 };
 
@@ -11,7 +11,7 @@ var dataOrganize = function(rawData) {
     $("#chatroom").append('<form id="form' + rawData[i]['id'] + '" action="/message/' + rawData[i]['id'] + '/delete" method="post">' +
     '<input type="hidden" name="_method" value="delete">');
 
-    $("#chatroom").append('<li><span class="redx"><a href="#" onclick="document.getElementById(\'form' + rawData[i]['id'] + '\').submit();">&#10005;</a></span>' +
+    $("#chatroom").append('<li><span class="redx"><a href="#" onclick="document.getElementById(\'form' + rawData[i]['id'] + '\').submit();">&#10005; </a></span> ' +
     '<span class="time-span">' + rawData[i]['display_time'] + " ></span> " + '<span class="name-span">' + rawData[i]['username'] + ': </span> ' + rawData[i]['content'] +
     '<input type="hidden" name="remove-message" value="' + rawData[i]['id'] + '"/>' +
     '</li>');
@@ -24,7 +24,7 @@ var dataOrganize = function(rawData) {
 
 var userModal = function(input) {
   $('#user-modal-image-div').html(
-    "<div class='profile-picture-wrapper' style='margin: auto; background-image: url(" + user_a[1] + "); border-radius: 50%; width: 150px; height: 150px; background-size: cover; background-position: center;'></div>");
+    "<div class='profile-picture-wrapper' style='margin: auto; background-image: url(" + input[1] + "); border-radius: 50%; width: 150px; height: 150px; background-size: cover; background-position: center;'></div>");
   $('#user-modal-name-div').html(input[0]);
   $('#user-modal-about-div').html("<em>" + input[2] + "</em>");
   $('#user-modal').show();
@@ -91,7 +91,7 @@ $(document).ready(function() {
       method: 'post', redirect: 'follow',
       headers: {
         'content-type': 'application/json'
-      }, 
+      },
       body: JSON.stringify(lastMessageId)
     })
 		.then(response => {
@@ -109,7 +109,7 @@ $(document).ready(function() {
 					jsonData.objects = data;
         } else {
           jsonData.error = data;
-        } 
+        }
       })
       .catch(error => {
         if (error.status !== 200) {
