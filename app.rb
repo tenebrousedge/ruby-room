@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'json'
 require 'pry'
 Bundler.require(:default)
+use Rack::Logger
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
@@ -11,6 +12,7 @@ enable  :sessions, :logging
 #login
 get '/' do
   @user = User.find_by(:uuid => session[:uuid])
+  @variable = "Your IP address is #{request.ip}"
   erb :index
 end
 
@@ -19,14 +21,32 @@ get '/signup' do
   erb :signup
 end
 
+get '/admin' do
+  @users = User.all
+  @exiles = Exile.all
+  @variable = "Your IP address is #{request.ip}"
+  erb :admin
+end
+
 # add a user to the db
 post "/signup" do
+
+  ip = request.ip
+  banned_ips = []
+  Exile.all.each do |exile|
+    banned_ips.push(exile.address.to_s)
+  end
+
+  if banned_ips.include? ip
+    redirect "/failure"
+  else
 
     user = User.new(
     :username => params['username'],
     :password => params['password'],
     :profile_picture => "/img/no-profile-picture.jpg",
-    :about_me => "no description available"
+    :about_me => "no description available",
+    :address => request.ip
     )
 
     if user.save && params['agree'] == "agree"
@@ -34,6 +54,7 @@ post "/signup" do
     else
         redirect "/failure"
     end
+  end
 end
 
 # create uuid on login
@@ -169,7 +190,6 @@ post '/chat/messages/new' do
   )
 end
 
-
 #JSON DATA SERVING
 get '/active-users' do
   content_type :json
@@ -181,10 +201,6 @@ post '/data' do
   redirect '/data'
 end
 
-get '/data' do
-  content_type :json
-  HashMash.mash_the_hash.to_json
-end
 
 delete '/message/:id/delete' do
   message = Message.find(params['id'])
@@ -196,4 +212,18 @@ post '/message/delete' do
   json_string = JSON.parse(request.env["rack.input"].read)
   message = Message.find(json_string)
   message.destroy()
+end
+
+post '/user/:id/ban' do
+  id = params['id']
+  user = User.find_by id: id
+  Message.all.each do |message|
+    if message.user_id == id
+      message.destroy()
+    end
+  end
+  address = user.address
+  Exile.create(username: user.username, address: address)
+  user.destroy()
+  redirect back
 end
