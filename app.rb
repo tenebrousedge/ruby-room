@@ -23,6 +23,7 @@ end
 
 get '/admin' do
   @users = User.all
+  @exiles = Exile.all
   @variable = "Your IP address is #{request.ip}"
   erb :admin
 end
@@ -200,9 +201,13 @@ end
 post '/user/:id/ban' do
   id = params['id']
   user = User.find_by id: id
+  Message.all.each do |message|
+    if message.user_id == id
+      message.destroy()
+    end
+  end
   address = user.address
   Exile.create(username: user.username, address: address)
   user.destroy()
-  erb :index
-
+  redirect back
 end

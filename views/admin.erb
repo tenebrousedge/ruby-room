@@ -1,4 +1,4 @@
-<p>ban user</p>
+<p>Bannable Users</p>
 <ul>
 <% @users.each do |user|%>
   <li><%= user.id%><%= " - " %><%= user.username %><%= user.address %></li>
@@ -7,6 +7,15 @@
     <button type="submit" id="ban-button">Submit</button>
   </form>
 
+<% end %>
+
+<br>
+<hr>
+<br>
+
+<p>Banned Users</p>
+<% @exiles.each do |exile|%>
+  <li><%= exile.id%><%= " - " %><%= exile.username %><%= exile.address %></li>
 <% end %>
 <%= @variable %>
 </ul>
