@@ -21,7 +21,7 @@ end
 
 # add a user to the db
 post "/signup" do
-  
+
     user = User.new(
     :username => params['username'],
     :password => params['password'],
@@ -171,7 +171,6 @@ end
 
 
 #JSON DATA SERVING
-
 get '/active-users' do
   content_type :json
   HashMash.active_users.to_json
@@ -198,14 +197,3 @@ post '/message/delete' do
   message = Message.find(json_string)
   message.destroy()
 end
-
-helpers do
-    def log(call,msg = '')
-        severity = Logger.const_get(call.upcase)
-        return if LOGGER.level > severity
-
-        msg = yield if block_given?
-        LOGGER.send(call, "<#{request.ip}> #{msg}")
-    end
-end
-
