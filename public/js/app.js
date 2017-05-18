@@ -7,6 +7,7 @@ var jsonData = {
 var dataOrganize = function(rawData) {
   $("#chatroom").text("");
 
+  // script to allow admins to delete an image
   for (i=0; i < rawData.length; i++) {
     $("#chatroom").append('<form id="form' + rawData[i]['id'] + '" action="/message/' + rawData[i]['id'] + '/delete" method="post">' +
     '<input type="hidden" name="_method" value="delete">');
@@ -18,30 +19,7 @@ var dataOrganize = function(rawData) {
 
     $("#chatroom").append('</form>');
   }
-
-
 };
-
-var userModal = function(input) {
-  $('#user-modal-image-div').html(
-    "<div class='profile-picture-wrapper' style='margin: auto; background-image: url(" + input[1] + "); border-radius: 50%; width: 150px; height: 150px; background-size: cover; background-position: center;'></div>");
-  $('#user-modal-name-div').html(input[0]);
-  $('#user-modal-about-div').html("<em>" + input[2] + "</em>");
-  $('#user-modal').show();
-};
-
-var modalHide = function() {
-  $('#user-modal').hide();
-}
-
-var displayUsers = function(userData) {
-  $("#users").text("");
-  userData.forEach(function(user) {
-    user_a = [user['username'], user['profile_picture'], user['about_me'].replace('"', '&quote')];
-    $("#users").append("<a onclick='userModal([" + "\"" + user_a[0] + "\"," + "\"" + user_a[1] + "\"," + "\"" + user_a[2] + "\"" + "]);' href='#' id='" + user['username'] + "'>" + user['username'] + "</a><br>");
-  });
-};
-
 
 
 var getLastMessageId = function() {
@@ -53,8 +31,9 @@ var getLastMessageId = function() {
   }
 };
 
-
 $(document).ready(function() {
+
+  // JS Spinner animation script
 
     var opts = {
     lines: 13 // The number of lines to draw
@@ -82,6 +61,8 @@ $(document).ready(function() {
   var target = document.getElementById("load");
   var spinner = new Spinner(opts).spin(target);
 
+
+  // async call for information
   var async = function() {
 
    var lastMessageId = getLastMessageId();
