@@ -77,7 +77,13 @@ For further support, please contact any contributing member of the group through
 
 ## Technologies Used
 
-This website was constructed using HTML, CSS, Javascript and Ruby as well as jQuerey, Ajax and Active Record elements.
+This website was constructed using HTML, CSS, Javascript and Ruby as well as jQuery and Active Record elements.
+
+- spin.js https://github.com/fgnass/spin.js
+- bcrypt https://github.com/codahale/bcrypt-ruby
+- sinatra http://www.sinatrarb.com/
+- capybara https://github.com/teamcapybara/capybara
+- rspec https://github.com/rspec/rspec
 
 ## License
 
