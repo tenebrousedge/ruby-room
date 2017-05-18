@@ -75,7 +75,7 @@ $(document).ready(function() {
   , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
   , zIndex: 2e9 // The z-index (defaults to 2000000000)
   , className: 'spinner' // The CSS class to assign to the spinner
-  , top: '50%' // Top position relative to parent
+  , top: '50px' // Top position relative to parent
   , left: '50%' // Left position relative to parent
   , shadow: false // Whether to render a shadow
   , hwaccel: false // Whether to use hardware acceleration
@@ -127,6 +127,9 @@ $(document).ready(function() {
         }
       })
       .then(function() {
+        if (jsonData.tempObjects.length != 0) {
+          $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 500);
+        }
         dataOrganize(jsonData.tempObjects);
         spinner.stop();
         spinner2.stop();
@@ -185,8 +188,6 @@ $(document).ready(function() {
       .then(function() {
         displayUsers(jsonData.activeUsers);
       });
-
-      $("#chatroom").animate({ scrollTop: $('#chatroom').prop("scrollHeight")}, 500);
   };
 
   var target2 = document.getElementById("load-below");
@@ -210,5 +211,5 @@ $(document).ready(function() {
     $("#new-message").val("");
   });
 
-  setInterval(async , 500);
+  setInterval(async , 2000);
 });
