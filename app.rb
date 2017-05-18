@@ -159,6 +159,7 @@ get '/chat/' do
   end
 end
 
+
 delete "/post/remove" do
   post = Message.find(params['remove-message'])
   post.destroy
@@ -175,6 +176,7 @@ get '/data' do
   HashMash.mash_the_hash.to_json
 end
 
+
 post '/chat/messages/new' do
   #creates a message and assigns it to the user id passed through url
   json_string = JSON.parse(request.env["rack.input"].read)
@@ -185,6 +187,14 @@ post '/chat/messages/new' do
     display_time: Time.new.in_time_zone('Pacific Time (US & Canada)').strftime("%I:%M %P")
   )
 end
+
+
+post '/data' do
+  lastMessage = JSON.parse(request.env["rack.input"].read)
+  redirect '/data'
+end
+
+
 
 delete '/message/:id/delete' do
   message = Message.find(params['id'])
@@ -197,6 +207,7 @@ post '/message/delete' do
   message = Message.find(json_string)
   message.destroy()
 end
+
 
 post '/user/:id/ban' do
   id = params['id']
@@ -211,3 +222,15 @@ post '/user/:id/ban' do
   user.destroy()
   redirect back
 end
+
+helpers do
+    def log(call,msg = '')
+        severity = Logger.const_get(call.upcase)
+        return if LOGGER.level > severity
+
+        msg = yield if block_given?
+        LOGGER.send(call, "<#{request.ip}> #{msg}")
+    end
+end
+
+

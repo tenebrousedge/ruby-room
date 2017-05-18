@@ -156,7 +156,6 @@ input[type='checkbox'] {
   margin: 100px auto 0 auto;
   text-align: center;
   color: white;
-  overflow: scroll;
 }
 #user-modal-image-div,
 #user-modal-name-div,
