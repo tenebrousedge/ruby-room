@@ -25,12 +25,13 @@ body {
 .ruby {
   color: #932a2a;
 }
-
+.red {
+  color: #ed4545;
+}
 .redx {
   color: red;
   display: none;
 }
-
 .ruby:hover {
   color: #932a2a;
 }
@@ -142,7 +143,8 @@ input[type='checkbox'] {
 .time-span {
   color: #777;
 }
-#user-modal {
+#user-modal,
+#terms-modal {
   width: 100%;
   height: 100%;
   z-index: 100;
@@ -151,14 +153,15 @@ input[type='checkbox'] {
   left: 0;
   background-color: rgba(0, 0, 0, 0.8);
   display: none;
+  color: white;
 }
-#user-modal-content {
+#user-modal-content,
+#terms-modal-content {
   max-width: 600px;
   width: 90%;
   display: block;
   margin: 100px auto 0 auto;
   text-align: center;
-  color: white;
 }
 #user-modal-image-div,
 #user-modal-name-div,
@@ -167,6 +170,13 @@ input[type='checkbox'] {
 }
 #user-modal-name-div {
   font-size: 2em;
+}
+#terms-modal {
+  overflow: scroll;
+  padding-bottom: 200px;
+}
+#terms-modal-content {
+  text-align: left;
 }
 
 /*-------------------------USER PAGE STYLES*/
@@ -185,6 +195,10 @@ input[type='checkbox'] {
   height: 150px;
   background-size: cover;
   background-position: center;
+}
+ol.terms-list {
+  margin: 20px 0;
+  list-style-type: circle;
 }
 
 /* ----------------------LOADER ANIMATION*/

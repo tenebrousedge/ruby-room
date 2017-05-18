@@ -23,10 +23,15 @@ get '/signup' do
 end
 
 get '/admin' do
-  @users = User.all
-  @exiles = Exile.all
-  @variable = "Your IP address is #{request.ip}"
-  erb :admin
+  user = User.find_by(:uuid => session[:uuid])
+  if user != nil && user.admin == true
+    @users = User.all
+    @exiles = Exile.all
+    @variable = "Your IP address is #{request.ip}"
+    erb :admin
+  else
+    erb :failure
+  end
 end
 
 # add a user to the db
@@ -47,7 +52,8 @@ post "/signup" do
     :password => params['password'],
     :profile_picture => "/img/no-profile-picture.jpg",
     :about_me => "no description available",
-    :address => request.ip
+    :address => request.ip,
+    :admin => false
     )
 
     if user.save && params['agree'] == "agree"
@@ -155,7 +161,6 @@ get '/chat/' do
     @user.update(activity: true)
     @messages = Message.all
     @user_id = session[:user_id]
-    @admin = true
     erb :chat
   else
     erb(:failure)

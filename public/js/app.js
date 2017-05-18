@@ -44,6 +44,7 @@ var dataOrganize = function(rawData) {
       $("#chatroom").append('</form>');
     }
   }
+
   jsonData.objects = jsonData.objects.concat(jsonData.tempObjects);
   jsonData.tempObjects = [];
 };
@@ -69,8 +70,6 @@ var modalHide = function() {
   $('#user-modal').hide();
 }
 
-
-//
 var getLastMessageId = function() {
   console.log("objects", jsonData.objects)
   if (jsonData.objects.length === 0) {
@@ -84,6 +83,7 @@ $(document).ready(function() {
   var target = document.getElementById("load");
   var spinner = new Spinner(opts).spin(target);
 
+  // async call for information
   var async = function() {
 
    var lastMessageId = getLastMessageId();
