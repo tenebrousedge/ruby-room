@@ -1,7 +1,11 @@
 <p>ban user</p>
 <ul>
 <% @users.each do |user|%>
-  <li><%= user.id%><%= user.username %></li>
+  <li><%= user.id%><%= " - " %><%= user.username %><%= user.address %></li>
+  <form action="/user/<%=user.id%>/ban" method="post">
+    <label>Ban User</label>
+    <button type="submit" id="ban-button">Submit</button>
+  </form>
 
 <% end %>
 <%= @variable %>

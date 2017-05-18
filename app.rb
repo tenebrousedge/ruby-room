@@ -29,12 +29,21 @@ end
 
 # add a user to the db
 post "/signup" do
+  ip = request.ip
+  banned_ips = []
+  Exile.all.each do |exile|
+    banned_ips.push(exile.address.to_s)
+  end
 
+  if banned_ips.include? ip
+    redirect "/failure"
+  else
     user = User.new(
     :username => params['username'],
     :password => params['password'],
     :profile_picture => "/img/no-profile-picture.jpg",
-    :about_me => "no description available"
+    :about_me => "no description available",
+    :address => request.ip
     )
 
     if user.save && params['agree'] == "agree"
@@ -42,6 +51,7 @@ post "/signup" do
     else
         redirect "/failure"
     end
+  end
 end
 
 # create uuid on login
@@ -185,4 +195,14 @@ post '/message/delete' do
   json_string = JSON.parse(request.env["rack.input"].read)
   message = Message.find(json_string)
   message.destroy()
+end
+
+post '/user/:id/ban' do
+  id = params['id']
+  user = User.find_by id: id
+  address = user.address
+  Exile.create(username: user.username, address: address)
+  user.destroy()
+  erb :index
+
 end
