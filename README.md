@@ -73,7 +73,7 @@ _view user info:_
 
 ## Support and contact details
 
-For further support, please contact any contributing member of the group through their respective Github accounts. E-mails will not be listed here as this README (aubrey was here) is publicly displayed.
+For further support, please contact any contributing member of the group through their respective Github accounts. E-mails will not be listed here as this README is publicly displayed.
 
 ## Technologies Used
 
